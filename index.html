@@ -12,20 +12,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #000;
+            background: url('starry-sky.jpg') no-repeat center center fixed;
+            background-size: cover;
             font-family: Arial, sans-serif;
             overflow: hidden;
             position: relative;
         }
-        .stars {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><circle cx="10%" cy="10%" r="1" fill="#a855f7"/><circle cx="20%" cy="80%" r="1" fill="#a855f7"/><circle cx="70%" cy="30%" r="1" fill="#a855f7"/><circle cx="90%" cy="60%" r="1" fill="#a855f7"/></svg>') no-repeat;
-        }
         .container {
             text-align: center;
             color: white;
+            position: relative;
+            transition: transform 0.1s ease-out; /* Smooth movement */
+            cursor: grab;
+        }
+        .container.dragging {
+            cursor: grabbing;
         }
         .enter {
             font-size: 1.2em;
@@ -39,6 +40,17 @@
             letter-spacing: 5px;
             text-shadow: 0 0 20px rgba(250, 204, 21, 0.8);
             margin: 0;
+            animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes glow {
+            0% { text-shadow: 0 0 20px rgba(250, 204, 21, 0.8); }
+            50% { text-shadow: 0 0 40px rgba(250, 204, 21, 1); }
+            100% { text-shadow: 0 0 20px rgba(250, 204, 21, 0.8); }
         }
         button {
             margin-top: 30px;
@@ -54,24 +66,62 @@
         button:hover {
             background: linear-gradient(90deg, #4c1d95, #7e22ce);
         }
+        #user-count {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        #unity-container {
+            margin-top: 40px;
+            width: 800px;
+            height: 600px;
+        }
+        .section {
+            margin-top: 40px;
+        }
+        h2 {
+            font-size: 2em;
+            color: #facc15;
+            text-transform: uppercase;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <div class="stars"></div>
-    <div class="container">
+    <div class="container" id="container">
         <div class="enter">Enter</div>
         <h1>RickyMaru.Metaverse</h1>
         <button onclick="connectWallet()">Connect Wallet</button>
+        <div id="user-count">Users Connected: 0</div>
+        <div id="unity-container">
+            <p>Virtual District Coming Soon...</p>
+        </div>
+        <div class="section">
+            <h2>Vision</h2>
+            <p>RickyMaru Metaverse is a Web3 virtual district that grows with its community. By connecting your wallet, you help unlock new streets, shops, and social hubs. My goal is to create a space where commerce and creativity thrive, reaching 10,000 users by 2030.</p>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <script>
+        let connectedWallets = [];
         async function connectWallet() {
             if (window.ethereum) {
                 const web3 = new Web3(window.ethereum);
                 try {
                     await window.ethereum.request({ method: 'eth_requestAccounts' });
                     const accounts = await web3.eth.getAccounts();
-                    alert('Connected: ' + accounts[0]);
+                    const walletAddress = accounts[0];
+                    if (!connectedWallets.includes(walletAddress)) {
+                        connectedWallets.push(walletAddress);
+                        document.getElementById('user-count').innerText = `Users Connected: ${connectedWallets.length}`;
+                        if (connectedWallets.length >= 100) {
+                            alert('Milestone reached! New street unlocked (coming soon).');
+                        }
+                    }
+                    alert('Connected: ' + walletAddress);
                 } catch (error) {
                     alert('Connection failed: ' + error.message);
                 }
@@ -79,6 +129,44 @@
                 alert('Please install Metamask to connect your wallet!');
             }
         }
+
+        // Drag-to-move effect
+        const container = document.getElementById('container');
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+
+        container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            container.classList.add('dragging');
+            startX = e.clientX;
+            startY = e.clientY;
+            initialX = initialX || 0;
+            initialY = initialY || 0;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaX = (e.clientX - startX) * 0.1; // Scale movement for smoother effect
+                const deltaY = (e.clientY - startY) * 0.1;
+                initialX += deltaX;
+                initialY += deltaY;
+                container.style.transform = `translate(${initialX}px, ${initialY}px)`;
+                startX = e.clientX;
+                startY = e.clientY;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            container.classList.remove('dragging');
+        });
+
+        // Reset position on double-click (optional)
+        container.addEventListener('dblclick', () => {
+            initialX = 0;
+            initialY = 0;
+            container.style.transform = `translate(0px, 0px)`;
+        });
     </script>
 </body>
 </html>
