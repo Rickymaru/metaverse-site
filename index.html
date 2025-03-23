@@ -111,32 +111,38 @@
         </div>
     </div>
     <script src="Build/WebGL.loader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <script>
-        // Initialize Unity WebGL build
-        const config = {
-            dataUrl: "Build/WebGL.data.gz",
-            frameworkUrl: "Build/WebGL.framework.js.gz",
-            codeUrl: "Build/WebGL.wasm.gz",
-            streamingAssetsUrl: "StreamingAssets",
-            companyName: "RickyMaru",
-            productName: "Skybox",
-            productVersion: "1.0"
-        };
-        createUnityInstance(document.querySelector("#unity-canvas"), config)
-            .then((unityInstance) => {
-                window.unityInstance = unityInstance;
-            })
-            .catch((error) => {
-                console.error("Unity failed to load: ", error);
-            });
+        // Initialize Unity WebGL build with error handling
+        if (typeof createUnityInstance === 'undefined') {
+            console.error("Unity WebGL loader not found. Ensure Build/WebGL.loader.js is correctly loaded.");
+        } else {
+            const config = {
+                dataUrl: "Build/WebGL.data.gz",
+                frameworkUrl: "Build/WebGL.framework.js.gz",
+                codeUrl: "Build/WebGL.wasm.gz",
+                streamingAssetsUrl: "StreamingAssets",
+                companyName: "RickyMaru",
+                productName: "Skybox",
+                productVersion: "1.0"
+            };
+            createUnityInstance(document.querySelector("#unity-canvas"), config)
+                .then((unityInstance) => {
+                    window.unityInstance = unityInstance;
+                    console.log("Unity WebGL loaded successfully");
+                })
+                .catch((error) => {
+                    console.error("Unity failed to load: ", error);
+                });
+        }
 
+        // Wallet integration
         let connectedWallets = [];
         async function connectWallet() {
-            if (window.ethereum) {
-                const web3 = new Web3(window.ethereum);
+            if (typeof window.ethereum !== 'undefined') {
                 try {
                     await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const web3 = new Web3(window.ethereum);
                     const accounts = await web3.eth.getAccounts();
                     const walletAddress = accounts[0];
                     if (!connectedWallets.includes(walletAddress)) {
@@ -148,13 +154,15 @@
                     }
                     alert('Connected: ' + walletAddress);
                 } catch (error) {
+                    console.error('Wallet connection failed:', error);
                     alert('Connection failed: ' + error.message);
                 }
             } else {
-                alert('Please install Metamask to connect your wallet!');
+                alert('Please install MetaMask or another wallet provider!');
             }
         }
 
+        // Drag-to-move effect for content
         const container = document.getElementById('container');
         let isDragging = false;
         let startX, startY, initialX, initialY;
