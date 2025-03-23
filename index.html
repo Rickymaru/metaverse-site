@@ -1,59 +1,195 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RickyMaru Metaverse</title>
+    <meta name="description" content="Rickymaru.Metaverse: A Web3 platform revolutionizing e-commerce and virtual experiences. Shop NFTs, digital art, and virtual goods in a decentralized Metaverse, accessible without VR headsets.">
+    <meta name="keywords" content="Rickymaru.Metaverse, Web3, e-commerce, online shopping, NFTs, digital art, virtual goods, decentralized platform, virtual district, accessible Metaverse">
+    <meta name="author" content="Ricky, Creator of Rickymaru.Metaverse">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Rickymaru.Metaverse - Accessible Web3 Virtual District">
+    <meta property="og:description" content="Experience Rickymaru.Metaverse: Shop NFTs and digital goods in a decentralized platform, accessible without VR headsets. Join the future of Web3!">
+    <meta property="og:image" content="https://yourdomain.com/3d-hyperspace-background-with-warp-tunnel-effect.jpg">
+    <meta property="og:url" content="https://yourdomain.com">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rickymaru.Metaverse - Accessible Web3 Virtual District">
+    <meta name="twitter:description" content="Experience Rickymaru.Metaverse: Shop NFTs and digital goods in a decentralized platform, accessible without VR headsets. Join the future of Web3!">
+    <meta name="twitter:image" content="https://yourdomain.com/3d-hyperspace-background-with-warp-tunnel-effect.jpg">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "OnlineStore",
+        "name": "Rickymaru.Metaverse",
+        "description": "Rickymaru.Metaverse is a Web3 e-commerce platform where you can shop NFTs, digital art, and virtual goods in a decentralized virtual district, accessible without VR headsets.",
+        "url": "https://yourdomain.com",
+        "creator": {
+            "@type": "Person",
+            "name": "Ricky"
+        },
+        "keywords": "Metaverse, Web3, e-commerce, NFTs, digital art, virtual goods, accessible Metaverse",
+        "offers": {
+            "@type": "Offer",
+            "itemOffered": {
+                "@type": "Product",
+                "name": "NFTs and Digital Goods",
+                "description": "Exclusive NFTs, digital art, and virtual goods available in Rickymaru.Metaverse."
+            }
+        }
+    }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="r expanded.png">
+    <title>Rickymaru.Metaverse - Accessible Web3 Virtual District</title>
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-            position: relative;
-            background: url('starry-sky.jpg') no-repeat center center fixed;
-            background-size: cover;
+            box-sizing: border-box;
         }
-        #unity-container {
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            background: #000;
+            overflow-x: hidden;
+            position: relative;
+        }
+        header {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        header.visible {
+            opacity: 1;
+        }
+        .logo {
+            width: 100px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.1);
+        }
+        #background {
+            position: fixed;
+            top: -150%;
+            left: -50%;
+            width: 200%;
+            height: 400%;
+            background: url('3d-hyperspace-background-with-warp-tunnel-effect.jpg') no-repeat center center;
+            background-size: cover;
+            z-index: -1;
+            will-change: transform;
+        }
+        #background::after {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8));
+            z-index: 0;
         }
-        #unity-canvas {
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
-        .container {
-            text-align: center;
-            color: white;
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: rgba(251, 182, 0, 0.8);
+            border-radius: 50%;
+            animation: floatParticle 10s infinite ease-in-out;
+        }
+        @keyframes floatParticle {
+            0% { transform: translateY(0) scale(1); opacity: 0.5; }
+            50% { transform: translateY(-50vh) scale(1.5); opacity: 1; }
+            100% { transform: translateY(0) scale(1); opacity: 0.5; }
+        }
+        .interactive-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(168, 85, 247, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fadeParticle 2s ease-out forwards;
+        }
+        @keyframes fadeParticle {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(2); }
+        }
+        .content {
             position: relative;
-            transition: transform 0.1s ease-out;
-            cursor: grab;
             z-index: 1;
+            padding: 50px 20px;
+            text-align: center;
         }
-        .container.dragging {
-            cursor: grabbing;
-        }
-        .enter {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            text-transform: uppercase;
+        .content > div {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
         }
         h1 {
             font-size: 5em;
-            color: #facc15;
+            color: #FBB600;
             text-transform: uppercase;
             letter-spacing: 5px;
-            text-shadow: 0 0 20px rgba(250, 204, 21, 0.8);
+            text-shadow: 0 0 20px rgba(251, 182, 0, 0.8);
             margin: 0;
+            font-family: 'Orbitron', sans-serif;
             animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite;
+        }
+        h1 span {
+            opacity: 0;
+            display: inline-block;
+            animation: letterFade 0.5s ease forwards;
+        }
+        h1 span:nth-child(1) { animation-delay: 0.1s; }
+        h1 span:nth-child(2) { animation-delay: 0.2s; }
+        h1 span:nth-child(3) { animation-delay: 0.3s; }
+        h1 span:nth-child(4) { animation-delay: 0.4s; }
+        h1 span:nth-child(5) { animation-delay: 0.5s; }
+        h1 span:nth-child(6) { animation-delay: 0.6s; }
+        h1 span:nth-child(7) { animation-delay: 0.7s; }
+        h1 span:nth-child(8) { animation-delay: 0.8s; }
+        h1 span:nth-child(9) { animation-delay: 0.9s; }
+        h1 span:nth-child(10) { animation-delay: 1.0s; }
+        h1 span:nth-child(11) { animation-delay: 1.1s; }
+        h1 span:nth-child(12) { animation-delay: 1.2s; }
+        h1 span:nth-child(13) { animation-delay: 1.3s; }
+        h1 span:nth-child(14) { animation-delay: 1.4s; }
+        h1 span:nth-child(15) { animation-delay: 1.5s; }
+        h1 span:nth-child(16) { animation-delay: 1.6s; }
+        h1 span:nth-child(17) { animation-delay: 1.7s; }
+        h1 span:nth-child(18) { animation-delay: 1.8s; }
+        h1 span:nth-child(19) { animation-delay: 1.9s; }
+        @keyframes letterFade {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .tagline {
+            font-size: 1.5em;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #a855f7, #6b21a8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+            font-family: 'Montserrat', sans-serif;
         }
         @keyframes float {
             0% { transform: translateY(0); }
@@ -61,9 +197,9 @@
             100% { transform: translateY(0); }
         }
         @keyframes glow {
-            0% { text-shadow: 0 0 20px rgba(250, 204, 21, 0.8); }
-            50% { text-shadow: 0 0 40px rgba(250, 204, 21, 1); }
-            100% { text-shadow: 0 0 20px rgba(250, 204, 21, 0.8); }
+            0% { text-shadow: 0 0 20px rgba(251, 182, 0, 0.8); }
+            50% { text-shadow: 0 0 40px rgba(251, 182, 0, 1); }
+            100% { text-shadow: 0 0 20px rgba(251, 182, 0, 0.8); }
         }
         button {
             margin-top: 30px;
@@ -75,132 +211,890 @@
             font-size: 1em;
             cursor: pointer;
             text-transform: uppercase;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            font-family: 'Orbitron', sans-serif;
+            animation: zoomIn 1s ease-in-out infinite;
         }
         button:hover {
             background: linear-gradient(90deg, #4c1d95, #7e22ce);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 1);
+        }
+        @keyframes zoomIn {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         #user-count {
             margin-top: 20px;
-            font-size: 1.2em;
+            font-size: 1.5em;
+            color: #FBB600;
+            text-shadow: 0 0 10px rgba(251, 182, 0, 0.8);
+            font-family: 'Orbitron', sans-serif;
+            position: relative;
         }
-        .section {
-            margin-top: 40px;
+        #connection-message {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(251, 182, 0, 0.8);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+        #connection-message.visible {
+            opacity: 1;
+        }
+        .carousel {
+            width: 100vw;
+            margin: 20px 0;
+            position: relative;
+            overflow: visible;
+            padding: 40px 0;
+        }
+        .carousel-track {
+            display: flex;
+            width: max-content;
+            animation: scroll 20s linear infinite;
+        }
+        .carousel-track:hover {
+            animation-play-state: paused;
+        }
+        .carousel-item {
+            flex: 0 0 300px;
+            margin: 0 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            perspective: 1000px;
+        }
+        .carousel-item:hover {
+            transform: rotateY(10deg) rotateX(10deg) scale(1.05);
+            box-shadow: 0 0 30px rgba(251, 182, 0, 0.8);
+        }
+        .carousel-item img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .carousel-item h3 {
+            font-size: 1.5em;
+            color: #FBB600;
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 15px rgba(251, 182, 0, 0.8);
+        }
+        .carousel-item p {
+            font-family: 'Montserrat', sans-serif;
+            text-align: justify;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
         h2 {
-            font-size: 2em;
-            color: #facc15;
+            font-size: 3em;
+            color: #FBB600;
             text-transform: uppercase;
+            margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 15px rgba(251, 182, 0, 0.8);
         }
         p {
             font-size: 1.2em;
             line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+        }
+        #vision p {
+            opacity: 0;
+            animation: textPop 1s ease forwards;
+        }
+        @keyframes textPop {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .learn-more {
+            margin-top: 20px;
+            padding: 8px 20px;
+            background: linear-gradient(90deg, #6b21a8, #a855f7);
             color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 0.9em;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            font-family: 'Orbitron', sans-serif;
+        }
+        .learn-more:hover {
+            background: linear-gradient(90deg, #4c1d95, #7e22ce);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 1);
+        }
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .shop-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .shop-card:hover {
+            transform: translateY(-10px);
+        }
+        .shop-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .shop-card h3 {
+            font-size: 1.5em;
+            color: #FBB600;
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 15px rgba(251, 182, 0, 0.8);
+        }
+        .shop-card p {
+            font-family: 'Montserrat', sans-serif;
+            text-align: justify;
+        }
+        .virtual-shop-preview {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+        .shop-stall {
+            width: 200px;
+            height: 100px;
+            background: linear-gradient(45deg, #6b21a8, #a855f7);
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%) rotateX(20deg);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.8);
+        }
+        .shop-stall::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: #FBB600;
+            border-radius: 5px 5px 0 0;
+        }
+        .floating-item {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: floatItem 5s ease-in-out infinite;
+        }
+        .floating-item:hover,
+        .floating-item.tapped {
+            transform: scale(1.1) translateY(-10px);
+            box-shadow: 0 0 20px rgba(251, 182, 0, 1);
+        }
+        .floating-item::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: rgba(251, 182, 0, 0.8);
+            border-radius: 50%;
+            animation: trail 2s infinite ease-in-out;
+        }
+        @keyframes trail {
+            0% { transform: translate(0, 0); opacity: 1; }
+            100% { transform: translate(-20px, 20px); opacity: 0; }
+        }
+        .floating-item img {
+            width: 80%;
+            height: 80%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .floating-item:nth-child(1) { top: 50px; left: 50px; animation-delay: 0s; }
+        .floating-item:nth-child(2) { top: 20px; left: 250px; animation-delay: 1s; }
+        .floating-item:nth-child(3) { top: 150px; left: 80px; animation-delay: 2s; }
+        .floating-item:nth-child(4) { top: 120px; left: 220px; animation-delay: 3s; }
+        @keyframes floatItem {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+        .roadmap-container {
+            position: relative;
+            width: 100%;
+            height: 800px;
+            background: url('space-background.jpg') no-repeat center center;
+            background-size: cover;
+            overflow: visible;
+            margin: 20px 0;
+            padding-bottom: 60px;
+        }
+        .roadmap-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('stardust-path.png') no-repeat center center;
+            background-size: cover;
+            opacity: 0.5;
+        }
+        .roadmap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .roadmap-item {
+            position: absolute;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .roadmap-item:nth-child(1) { top: 10%; left: 15%; }
+        .roadmap-item:nth-child(2) { top: 25%; left: 75%; }
+        .roadmap-item:nth-child(3) { top: 45%; left: 20%; }
+        .roadmap-item:nth-child(4) { top: 65%; left: 80%; }
+        .roadmap-item:nth-child(5) { top: 85%; left: 25%; }
+        .roadmap-item .milestone {
+            width: 50px;
+            height: 50px;
+            background: url('rocket-icon.png') no-repeat center center;
+            background-size: contain;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+        }
+        .roadmap-item:hover .milestone {
+            transform: scale(1.2);
+        }
+        .roadmap-item h3 {
+            font-size: 1.5em;
+            color: #FBB600;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 15px rgba(251, 182, 0, 0.8);
+            margin-top: 10px;
+            transition: text-shadow 0.3s ease;
+        }
+        .roadmap-item:hover h3 {
+            text-shadow: 0 0 30px rgba(251, 182, 0, 1);
+        }
+        .roadmap-item .details {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            width: 250px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-align: left;
+            font-size: 0.9em;
+            z-index: 2;
+            box-shadow: 0 0 15px rgba(251, 182, 0, 0.5);
+        }
+        .roadmap-item:nth-child(1) .details {
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .roadmap-item:nth-child(2) .details {
+            top: -180px;
+            left: -50px;
+            transform: translateX(0);
+        }
+        .roadmap-item:nth-child(3) .details {
+            top: -180px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .roadmap-item:nth-child(4) .details {
+            top: -180px;
+            left: -50px;
+            transform: translateX(0);
+        }
+        .roadmap-item:nth-child(5) .details {
+            top: -180px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .roadmap-item:hover .details {
+            opacity: 1;
+            visibility: visible;
+        }
+        .rocket-traveler {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: url('small-rocket.png') no-repeat center center;
+            background-size: contain;
+            transition: transform 0.5s ease;
+        }
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .contact-form input,
+        .contact-form button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .contact-form input {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .contact-form button {
+            background: linear-gradient(90deg, #6b21a8, #a855f7);
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .contact-form button:hover {
+            background: linear-gradient(90deg, #4c1d95, #7e22ce);
+        }
+        .why-join-list {
+            list-style: none;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .why-join-list li {
+            font-size: 1.2em;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            text-align: left;
+        }
+        .why-join-list li::before {
+            content: '✨';
+            margin-right: 10px;
+            display: inline-block;
+            animation: sparkle 1.5s infinite ease-in-out;
+        }
+        @keyframes sparkle {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        #hovering-title {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 2;
+        }
+        #hovering-title.visible {
+            opacity: 1;
+        }
+        #floating-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(90deg, #6b21a8, #a855f7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 10;
+        }
+        #floating-cta.visible {
+            opacity: 1;
+        }
+        #floating-cta:hover {
+            background: linear-gradient(90deg, #4c1d95, #7e22ce);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 1);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            position: relative;
+            z-index: 1;
+            gap: 10px;
+        }
+        .footer-logo {
+            width: 50px;
+            height: auto;
         }
     </style>
 </head>
 <body>
-    <div id="unity-container">
-        <canvas id="unity-canvas"></canvas>
+    <header id="header">
+        <img src="r expanded.png" alt="Rickymaru.Metaverse Logo" class="logo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+    </header>
+
+    <div id="background"></div>
+
+    <div id="particles"></div>
+
+    <div id="hovering-title">
+        <h1>Rickymaru.Metaverse</h1>
     </div>
-    <div class="container" id="container">
-        <div class="enter">Enter</div>
-        <h1>RickyMaru.Metaverse</h1>
-        <button onclick="connectWallet()">Connect Wallet</button>
-        <div id="user-count">Users Connected: 0</div>
-        <div class="section">
-            <h2>Vision</h2>
-            <p>RickyMaru Metaverse is a Web3 virtual district that grows with its community. By connecting your wallet, you help unlock new streets, shops, and social hubs. My goal is to create a space where commerce and creativity thrive, reaching 10,000 users by 2030.</p>
+
+    <div id="floating-cta" onclick="scrollToSection('stay-updated')">Sign Up Now</div>
+
+    <div class="content">
+        <div class="fade-in" id="intro-section">
+            <h1 id="main-title">
+                <span>R</span><span>i</span><span>c</span><span>k</span><span>y</span><span>m</span><span>a</span><span>r</span><span>u</span><span>.</span><span>M</span><span>e</span><span>t</span><span>a</span><span>v</span><span>e</span><span>r</span><span>s</span><span>e</span>
+            </h1>
+            <div class="tagline">The Metaverse for Everyone—No VR Needed!</div>
+            <button onclick="connectWallet()">Connect Wallet</button>
+            <div id="user-count">Users Connected: 0</div>
+            <div id="connection-message">Wallet Connected!</div>
+            <div class="carousel">
+                <div class="carousel-track" id="carousel-track">
+                    <div class="carousel-item" onclick="scrollToSection('shop')">
+                        <img src="nft-placeholder.jpg" alt="Exclusive NFT in Rickymaru.Metaverse">
+                        <h3>Exclusive NFT</h3>
+                        <p>Own a unique piece of digital art.</p>
+                    </div>
+                    <div class="carousel-item" onclick="scrollToSection('shop')">
+                        <img src="digital-art-placeholder.jpg" alt="Digital Art in Rickymaru.Metaverse">
+                        <h3>Digital Art</h3>
+                        <p>Stunning artwork for your virtual space.</p>
+                    </div>
+                    <div class="carousel-item" onclick="scrollToSection('shop')">
+                        <img src="virtual-good-placeholder.jpg" alt="Virtual Good in Rickymaru.Metaverse">
+                        <h3>Virtual Good</h3>
+                        <p>Enhance your Metaverse experience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fade-in" id="vision">
+            <h2>The Vision</h2>
+            <p>
+                Hey, I’m Ricky, the creator of Rickymaru.Metaverse.<br>
+                This is a Web3 platform to evolve humanity’s digital future.<br>
+                Imagine a Metaverse for everyone—no VR headsets needed.<br>
+                Shop, connect, and explore in a decentralized virtual district.<br>
+                Let’s build the future together—10,000 users by 2030!
+            </p>
+            <button class="learn-more" onclick="scrollToSection('why-join')">Learn More</button>
+        </div>
+
+        <div class="fade-in" id="shop">
+            <h2>Explore the Shop</h2>
+            <p>Step into the Rickymaru.Metaverse shop—a curated marketplace for NFTs, digital art, and virtual goods. Start your journey in this accessible Web3 e-commerce platform, designed for the future of online shopping.</p>
+            <div class="shop-grid">
+                <div class="shop-card">
+                    <img src="nft-placeholder.jpg" alt="Exclusive NFT in Rickymaru.Metaverse">
+                    <h3>Exclusive NFT</h3>
+                    <p>Own a unique piece of digital art, available only in Rickymaru.Metaverse.</p>
+                </div>
+                <div class="shop-card">
+                    <img src="digital-art-placeholder.jpg" alt="Digital Art in Rickymaru.Metaverse">
+                    <h3>Digital Art</h3>
+                    <p>Discover stunning digital artwork, perfect for your virtual space.</p>
+                </div>
+                <div class="shop-card">
+                    <img src="virtual-good-placeholder.jpg" alt="Virtual Good in Rickymaru.Metaverse">
+                    <h3>Virtual Good</h3>
+                    <p>Enhance your Metaverse experience with exclusive virtual items.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="fade-in">
+            <h2>Preview the Shop in the Metaverse</h2>
+            <p>Step into a virtual shop stall in Rickymaru.Metaverse—no VR headset required! Click or tap an item to explore the shop.</p>
+            <div class="virtual-shop-preview">
+                <div class="shop-stall"></div>
+                <div class="floating-item" onclick="scrollToSection('shop')">
+                    <img src="nft-placeholder.jpg" alt="Exclusive NFT in Rickymaru.Metaverse">
+                </div>
+                <div class="floating-item" onclick="scrollToSection('shop')">
+                    <img src="digital-art-placeholder.jpg" alt="Digital Art in Rickymaru.Metaverse">
+                </div>
+                <div class="floating-item" onclick="scrollToSection('shop')">
+                    <img src="virtual-good-placeholder.jpg" alt="Virtual Good in Rickymaru.Metaverse">
+                </div>
+                <div class="floating-item" onclick="scrollToSection('shop')">
+                    <img src="nft-placeholder.jpg" alt="Exclusive NFT in Rickymaru.Metaverse">
+                </div>
+            </div>
+        </div>
+
+        <div class="fade-in">
+            <h2>Roadmap</h2>
+            <div class="roadmap-container">
+                <div class="roadmap-path"></div>
+                <div class="roadmap">
+                    <div class="roadmap-item">
+                        <div class="milestone"></div>
+                        <h3>Q2 2025</h3>
+                        <div class="details">
+                            <strong>Official Platform Launch</strong><br>
+                            - Launch the core platform with NFT and digital goods marketplace.<br>
+                            - Introduce wallet integration for seamless Web3 transactions.<br>
+                            - Onboard the first 100 beta users with exclusive NFTs as rewards.
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="milestone"></div>
+                        <h3>Q4 2025</h3>
+                        <div class="details">
+                            <strong>Reach 1,000 Users</strong><br>
+                            - Unlock the first virtual street with interactive 3D shops.<br>
+                            - Partner with digital artists to offer exclusive collections.<br>
+                            - Host a virtual launch event with giveaways to attract users.
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="milestone"></div>
+                        <h3>Q3 2026</h3>
+                        <div class="details">
+                            <strong>Expand the Marketplace</strong><br>
+                            - Open the platform to community vendors for virtual shops.<br>
+                            - Introduce a user rating system for vendors to ensure quality.<br>
+                            - Add support for virtual events, such as art galleries and NFT auctions.
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="milestone"></div>
+                        <h3>Q1 2028</h3>
+                        <div class="details">
+                            <strong>Reach 5,000 Users</strong><br>
+                            - Launch a mobile app for Rickymaru.Metaverse.<br>
+                            - Introduce social features, such as user avatars and virtual meetups.<br>
+                            - Partner with a major Web3 platform for cross-platform NFT trading.
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="milestone"></div>
+                        <h3>2030</h3>
+                        <div class="details">
+                            <strong>Achieve 10,000 Users</strong><br>
+                            - Build a fully decentralized virtual district with user-governed spaces.<br>
+                            - Introduce AI-driven personalization for user experiences.<br>
+                            - Host a global virtual festival to celebrate the milestone.
+                        </div>
+                    </div>
+                    <div class="rocket-traveler" id="rocket-traveler"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fade-in" id="why-join">
+            <h2>Why Join?</h2>
+            <ul class="why-join-list">
+                <li>Experience a Web3 Metaverse accessible without VR headsets.</li>
+                <li>Shop exclusive NFTs and digital goods in a decentralized platform.</li>
+                <li>Be part of a vision to evolve humanity’s digital future.</li>
+                <li>Join early to shape the next phase of Web3 e-commerce with Rickymaru.Metaverse.</li>
+            </ul>
+        </div>
+
+        <div class="fade-in" id="stay-updated">
+            <h2>Stay Updated</h2>
+            <p>Sign up to receive updates on new products, platform expansions, and more from Rickymaru.Metaverse!</p>
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+
+        <div class="fade-in" id="final-cta">
+            <h2>Join the Future</h2>
+            <p>Ready to be part of the next phase of Web3? Connect your wallet and explore Rickymaru.Metaverse—a platform designed to make the Metaverse accessible for everyone. Let’s evolve humanity’s digital future together!</p>
+            <button onclick="connectWallet()">Join Now</button>
         </div>
     </div>
-    <script src="Build/WebGL.loader"></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+
+    <footer>
+        <p>© 2025 Rickymaru.Metaverse. All rights reserved.</p>
+        <img src="r expanded.png" alt="Rickymaru.Metaverse Logo" class="footer-logo">
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
     <script>
-        // Initialize Unity WebGL build with error handling
-        if (typeof createUnityInstance === 'undefined') {
-            console.error("Unity WebGL loader not found. Ensure Build/WebGL.loader is correctly loaded. Falling back to static background.");
-        } else {
-            const config = {
-                dataUrl: "Build/WebGL.data.gz",
-                frameworkUrl: "Build/WebGL.framework.js.gz",
-                codeUrl: "Build/WebGL.wasm.gz",
-                streamingAssetsUrl: "StreamingAssets",
-                companyName: "RickyMaru",
-                productName: "Skybox",
-                productVersion: "1.0"
-            };
-            createUnityInstance(document.querySelector("#unity-canvas"), config, (progress) => {
-                console.log(`Unity loading progress: ${progress * 100}%`);
-            })
-                .then((unityInstance) => {
-                    window.unityInstance = unityInstance;
-                    console.log("Unity WebGL loaded successfully");
-                })
-                .catch((error) => {
-                    console.error("Unity failed to load: ", error);
-                });
-        }
-
-        // Wallet integration
         let connectedWallets = [];
+
         async function connectWallet() {
-            if (typeof window.ethereum !== 'undefined') {
-                try {
-                    await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    const web3 = new Web3(window.ethereum);
-                    const accounts = await web3.eth.getAccounts();
-                    const walletAddress = accounts[0];
-                    if (!connectedWallets.includes(walletAddress)) {
-                        connectedWallets.push(walletAddress);
-                        document.getElementById('user-count').innerText = `Users Connected: ${connectedWallets.length}`;
-                        if (connectedWallets.length >= 100) {
-                            alert('Milestone reached! New street unlocked (coming soon).');
-                        }
-                    }
-                    alert('Connected: ' + walletAddress);
-                } catch (error) {
-                    console.error('Wallet connection failed:', error);
-                    alert('Connection failed: ' + error.message);
+            try {
+                if (typeof window.ethereum === 'undefined') {
+                    alert('Please install MetaMask or another wallet provider!');
+                    return;
                 }
-            } else {
-                alert('Please install MetaMask or another wallet provider!');
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const walletAddress = accounts[0];
+                const web3 = new Web3(window.ethereum);
+                if (!connectedWallets.includes(walletAddress)) {
+                    connectedWallets.push(walletAddress);
+                    document.getElementById('user-count').innerText = `Users Connected: ${connectedWallets.length}`;
+                    if (connectedWallets.length >= 100) {
+                        alert('Milestone reached! New street unlocked (coming soon).');
+                    }
+                    const message = document.getElementById('connection-message');
+                    message.classList.add('visible');
+                    setTimeout(() => message.classList.remove('visible'), 3000);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                alert('Connected: ' + walletAddress);
+            } catch (error) {
+                console.error('Wallet connection failed:', error);
+                alert('Connection failed: ' + (error.message || 'Unknown error'));
             }
         }
 
-        // Drag-to-move effect for content
-        const container = document.getElementById('container');
-        let isDragging = false;
-        let startX, startY, initialX, initialY;
-
-        container.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            container.classList.add('dragging');
-            startX = e.clientX;
-            startY = e.clientY;
-            initialX = initialX || 0;
-            initialY = initialY || 0;
+        const mainTitle = document.getElementById('main-title');
+        const titleSpans = mainTitle.querySelectorAll('span');
+        mainTitle.style.opacity = '0';
+        titleSpans.forEach(span => {
+            span.style.opacity = '0';
+            span.style.animation = 'none';
         });
 
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                const deltaX = (e.clientX - startX) * 0.1;
-                const deltaY = (e.clientY - startY) * 0.1;
-                initialX += deltaX;
-                initialY += deltaY;
-                container.style.transform = `translate(${initialX}px, ${initialY}px)`;
-                startX = e.clientX;
-                startY = e.clientY;
+        window.addEventListener('load', () => {
+            mainTitle.style.opacity = '1';
+            titleSpans.forEach((span, index) => {
+                setTimeout(() => {
+                    span.style.animation = 'letterFade 0.5s ease forwards';
+                }, index * 100);
+            });
+        });
+
+        const carouselTrack = document.getElementById('carousel-track');
+        const carouselItems = carouselTrack.children;
+        const itemCount = carouselItems.length;
+        const itemWidth = 320;
+
+        for (let i = 0; i < itemCount * 3; i++) {
+            const clone = carouselItems[i % itemCount].cloneNode(true);
+            carouselTrack.appendChild(clone);
+        }
+
+        const totalItems = carouselTrack.children.length;
+        carouselTrack.style.width = `${totalItems * itemWidth}px`;
+
+        const totalWidth = totalItems * itemWidth;
+        const animationDuration = totalWidth / 100;
+        carouselTrack.style.animationDuration = `${animationDuration}s`;
+
+        const background = document.getElementById('background');
+        const maxMove = 20;
+        let mouseOffsetX = 0;
+        let mouseOffsetY = 0;
+        let parallaxOffsetY = 0;
+        let isPanning = false;
+        const throttleDelay = 16;
+
+        function throttle(callback, delay) {
+            let lastCall = 0;
+            return function (...args) {
+                const now = performance.now();
+                if (now - lastCall >= delay) {
+                    lastCall = now;
+                    callback(...args);
+                }
+            };
+        }
+
+        function updateBackgroundTransform() {
+            if (!isPanning) {
+                isPanning = true;
+                requestAnimationFrame(() => {
+                    background.style.transform = `translate(${mouseOffsetX}px, ${mouseOffsetY + parallaxOffsetY}px)`;
+                    isPanning = false;
+                });
+            }
+        }
+
+        const throttledMouseMove = throttle((e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            mouseOffsetX = (mouseX - 0.5) * maxMove;
+            mouseOffsetY = (mouseY - 0.5) * maxMove;
+            updateBackgroundTransform();
+
+            const particle = document.createElement('div');
+            particle.classList.add('interactive-particle');
+            particle.style.left = `${e.clientX}px`;
+            particle.style.top = `${e.clientY}px`;
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 2000);
+        }, throttleDelay);
+
+        document.addEventListener('mousemove', throttledMouseMove);
+
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            parallaxOffsetY = scrollPosition * 0.2;
+            updateBackgroundTransform();
+        });
+
+        const header = document.getElementById('header');
+        const introSection = document.getElementById('intro-section');
+        const observerOptions = { threshold: 0.1 };
+        const introObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    header.classList.add('visible');
+                } else {
+                    header.classList.remove('visible');
+                }
+            });
+        }, observerOptions);
+        introObserver.observe(introSection);
+
+        const hoveringTitle = document.getElementById('hovering-title');
+        const floatingCta = document.getElementById('floating-cta');
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            if (scrollPosition + windowHeight >= documentHeight - 200) {
+                hoveringTitle.classList.add('visible');
+            } else {
+                hoveringTitle.classList.remove('visible');
+            }
+            if (scrollPosition > windowHeight) {
+                floatingCta.classList.add('visible');
+            } else {
+                floatingCta.classList.remove('visible');
             }
         });
 
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            container.classList.remove('dragging');
+        const sections = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => {
+            observer.observe(section);
         });
 
-        container.addEventListener('dblclick', () => {
-            initialX = 0;
-            initialY = 0;
-            container.style.transform = `translate(0px, 0px)`;
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Thank you for signing up! You’ll receive updates soon.');
+            event.target.reset();
+        }
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        const floatingItems = document.querySelectorAll('.floating-item');
+        let lastTap = 0;
+
+        floatingItems.forEach(item => {
+            item.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const now = new Date().getTime();
+                const timeSinceLastTap = now - lastTap;
+
+                if (timeSinceLastTap < 300) {
+                    scrollToSection('shop');
+                    item.classList.add('tapped');
+                }
+
+                lastTap = now;
+            });
+
+            item.addEventListener('click', (e) => {
+                scrollToSection('shop');
+                item.classList.add('tapped');
+            });
+        });
+
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.animationDelay = `${Math.random() * 10}s`;
+            particlesContainer.appendChild(particle);
+        }
+
+        const roadmapContainer = document.querySelector('.roadmap-container');
+        const rocketTraveler = document.getElementById('rocket-traveler');
+        const roadmapItems = document.querySelectorAll('.roadmap-item');
+
+        window.addEventListener('scroll', () => {
+            const roadmapRect = roadmapContainer.getBoundingClientRect();
+            const scrollProgress = Math.min(1, Math.max(0, (window.innerHeight - roadmapRect.top) / (roadmapRect.height + window.innerHeight)));
+
+            const positions = [
+                { top: '10%', left: '15%' },
+                { top: '25%', left: '75%' },
+                { top: '45%', left: '20%' },
+                { top: '65%', left: '80%' },
+                { top: '85%', left: '25%' }
+            ];
+
+            const segment = scrollProgress * (positions.length - 1);
+            const currentSegment = Math.floor(segment);
+            const nextSegment = Math.ceil(segment);
+            const segmentProgress = segment - currentSegment;
+
+            const currentPos = positions[currentSegment];
+            const nextPos = positions[nextSegment] || positions[currentSegment];
+
+            const interpolatedTop = parseFloat(currentPos.top) + (parseFloat(nextPos.top) - parseFloat(currentPos.top)) * segmentProgress;
+            const interpolatedLeft = parseFloat(currentPos.left) + (parseFloat(nextPos.left) - parseFloat(currentPos.left)) * segmentProgress;
+
+            rocketTraveler.style.top = `${interpolatedTop}%`;
+            rocketTraveler.style.left = `${interpolatedLeft}%`;
         });
     </script>
 </body>
