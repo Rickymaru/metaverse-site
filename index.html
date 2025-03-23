@@ -12,18 +12,29 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: url('starry-sky.jpg') no-repeat center center fixed;
-            background-size: cover;
             font-family: Arial, sans-serif;
             overflow: hidden;
             position: relative;
+        }
+        #unity-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        #unity-canvas {
+            width: 100%;
+            height: 100%;
         }
         .container {
             text-align: center;
             color: white;
             position: relative;
-            transition: transform 0.1s ease-out; /* Smooth movement */
+            transition: transform 0.1s ease-out;
             cursor: grab;
+            z-index: 1;
         }
         .container.dragging {
             cursor: grabbing;
@@ -70,11 +81,6 @@
             margin-top: 20px;
             font-size: 1.2em;
         }
-        #unity-container {
-            margin-top: 40px;
-            width: 800px;
-            height: 600px;
-        }
         .section {
             margin-top: 40px;
         }
@@ -91,21 +97,24 @@
     </style>
 </head>
 <body>
+    <div id="unity-container">
+        <canvas id="unity-canvas"></canvas>
+    </div>
     <div class="container" id="container">
         <div class="enter">Enter</div>
         <h1>RickyMaru.Metaverse</h1>
         <button onclick="connectWallet()">Connect Wallet</button>
         <div id="user-count">Users Connected: 0</div>
-        <div id="unity-container">
-            <p>Virtual District Coming Soon...</p>
-        </div>
         <div class="section">
             <h2>Vision</h2>
             <p>RickyMaru Metaverse is a Web3 virtual district that grows with its community. By connecting your wallet, you help unlock new streets, shops, and social hubs. My goal is to create a space where commerce and creativity thrive, reaching 10,000 users by 2030.</p>
         </div>
     </div>
+    <script src="Build/UnityLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <script>
+        var unityInstance = UnityLoader.instantiate("unity-canvas", "Build/[your-build-name].json");
+        
         let connectedWallets = [];
         async function connectWallet() {
             if (window.ethereum) {
@@ -130,7 +139,6 @@
             }
         }
 
-        // Drag-to-move effect
         const container = document.getElementById('container');
         let isDragging = false;
         let startX, startY, initialX, initialY;
@@ -146,7 +154,7 @@
 
         document.addEventListener('mousemove', (e) => {
             if (isDragging) {
-                const deltaX = (e.clientX - startX) * 0.1; // Scale movement for smoother effect
+                const deltaX = (e.clientX - startX) * 0.1;
                 const deltaY = (e.clientY - startY) * 0.1;
                 initialX += deltaX;
                 initialY += deltaY;
@@ -161,7 +169,6 @@
             container.classList.remove('dragging');
         });
 
-        // Reset position on double-click (optional)
         container.addEventListener('dblclick', () => {
             initialX = 0;
             initialY = 0;
