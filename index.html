@@ -18,7 +18,7 @@
     }
     body {
       font-family: 'Inter', sans-serif;
-      background: radial-gradient(circle at 50% 50%, #090a1a, #000);
+      background: #000;
       color: #ffffff;
       line-height: 1.6;
       scroll-behavior: smooth;
@@ -39,6 +39,7 @@
       justify-content: center;
       align-items: center;
       position: relative;
+      overflow: hidden;
     }
     .hero h1 {
       font-family: 'Orbitron', sans-serif;
@@ -46,12 +47,22 @@
       color: #fbb600;
       word-break: break-word;
       z-index: 2;
+      animation: glowText 3s ease-in-out infinite alternate;
     }
     .hero p {
       font-size: 1.2rem;
       margin-top: 20px;
       max-width: 600px;
       z-index: 2;
+      animation: fadeIn 2s ease-in;
+    }
+    @keyframes glowText {
+      from { text-shadow: 0 0 10px #fbb600; }
+      to { text-shadow: 0 0 20px #fbb600, 0 0 30px #fbb600; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .section-title {
       font-size: 2rem;
@@ -130,6 +141,11 @@
       z-index: 0;
       opacity: 0.3;
       pointer-events: none;
+      animation: moveStars 200s linear infinite;
+    }
+    @keyframes moveStars {
+      from { background-position: 0 0; }
+      to { background-position: 10000px 10000px; }
     }
     @media (max-width: 768px) {
       .hero h1 {
@@ -166,7 +182,17 @@
 
   <section>
     <h2 class="section-title">The Vision</h2>
-    <p>Rickymaru is the first browser-based web3 digital nation – merging identity, social connection, commerce and exploration in one digital realm.</p>
+    <p>Rickymaru is the first browser-based web3 digital nation.</p>
+  </section>
+
+  <section>
+    <h2 class="section-title">Digital Society</h2>
+    <p>It merges identity, social connection, commerce and exploration in one unified realm.</p>
+  </section>
+
+  <section>
+    <h2 class="section-title">A Belonging-First Future</h2>
+    <p>Rickymaru is more than a platform — it's a foundation for a new kind of world where everyone belongs.</p>
   </section>
 
   <section>
@@ -182,7 +208,6 @@
 
   <section>
     <h2 class="section-title">Roadmap</h2>
-    <p>Rickymaru is more than a platform, it’s the foundation of a new kind of world, where everyone belongs.</p>
     <div class="roadmap">
       <span>🌱 Genesis – Concept launched, community forming (Q2 2025)</span>
       <span>🧪 Prototype & MVP – Experience preview & first citizen trials (Q3–Q4 2025)</span>
