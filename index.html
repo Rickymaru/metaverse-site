@@ -25,14 +25,13 @@
       background-attachment: fixed;
       position: relative;
     }
-    header, section {
+    section {
       padding: 60px 20px;
-      max-width: 1200px;
+      max-width: 800px;
       margin: 0 auto;
+      text-align: center;
     }
     .hero {
-      text-align: center;
-      padding: 120px 20px 60px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -40,10 +39,11 @@
       align-items: center;
       position: relative;
       overflow: hidden;
+      padding: 120px 20px 60px;
     }
     .hero h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 3.2rem;
+      font-size: calc(2rem + 1.5vw);
       color: #fbb600;
       word-break: break-word;
       z-index: 2;
@@ -68,7 +68,6 @@
       font-size: 2rem;
       color: #fbb600;
       margin-bottom: 20px;
-      text-align: center;
     }
     ul.features {
       display: flex;
@@ -83,7 +82,6 @@
       background: rgba(255, 255, 255, 0.05);
       padding: 20px;
       border-radius: 10px;
-      text-align: center;
       backdrop-filter: blur(4px);
     }
     .roadmap {
@@ -98,7 +96,6 @@
       border-left: 5px solid #fbb600;
     }
     .cta {
-      text-align: center;
       margin-top: 50px;
     }
     .cta input[type=email] {
@@ -148,9 +145,6 @@
       to { background-position: 10000px 10000px; }
     }
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.4rem;
-      }
       ul.features li {
         flex: 1 1 100%;
       }
@@ -176,7 +170,7 @@
 <body>
   <div class="stars"></div>
   <header class="hero">
-    <h1>rickymaru.metaverse</h1>
+    <h1 style="word-break: keep-all;">rickymaru.metaverse</h1>
     <p>A borderless society for explorers, creators, and dreamers – built on trust, imagination and digital freedom.</p>
   </header>
 
