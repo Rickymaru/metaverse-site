@@ -5,158 +5,147 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rickymaru – A New Kind of Nation</title>
   <meta name="description" content="Rickymaru is the first browser-based Web3 digital nation. Join the utopian digital society of explorers, creators, and dreamers." />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@400;600&display=swap" />
   <style>
-    /* Reset and base */
+    /* Reset */
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
     html, body {
-      width: 100%; height: 100%;
-      background: radial-gradient(ellipse at center, #050010 0%, #000000 90%);
-      color: #fff;
-      font-family: 'Inter', sans-serif;
+      width: 100%;
       overflow-x: hidden;
       scroll-behavior: smooth;
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      /* Force smooth scroll */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    /* Fixed star background with subtle slow movement */
+    .stars {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://www.transparenttextures.com/patterns/stardust.png');
+      opacity: 0.2;
+      z-index: 0;
+      pointer-events: none;
+      animation: moveStars 300s linear infinite;
+    }
+    @keyframes moveStars {
+      from { background-position: 0 0; }
+      to { background-position: 10000px 10000px; }
+    }
+
+    /* Container to center everything and limit width */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
       position: relative;
+      z-index: 2;
     }
 
-    /* Text glow utility */
-    .glow-text {
-      text-shadow:
-        0 0 8px #fbb600,
-        0 0 15px #fbb600,
-        0 0 20px #fbb600,
-        0 0 30px #fbb600;
-    }
-
-    /* Hero Section */
+    /* Hero section with full viewport height */
     .hero {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 140px 20px 80px;
+      text-align: center;
+      padding: 2rem 1rem;
       position: relative;
-      background: radial-gradient(circle at center, #150b28 0%, transparent 80%);
-      overflow: hidden;
       z-index: 2;
     }
     .hero h1 {
       font-family: 'Orbitron', sans-serif;
-      font-weight: 700;
-      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 600;
+      font-size: clamp(2.5rem, 6vw, 5rem);
       color: #fbb600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      animation: pulseGlow 4s ease-in-out infinite alternate;
+      white-space: nowrap;
+      overflow-wrap: normal;
+      text-overflow: ellipsis;
+      max-width: 90vw;
+      animation: glowText 3s ease-in-out infinite alternate;
       user-select: none;
+      line-height: 1.1;
+      margin-bottom: 1rem;
     }
     .hero p {
-      font-size: clamp(1rem, 1.8vw, 1.4rem);
-      margin-top: 1rem;
-      max-width: 600px;
-      color: #ffeb8a;
-      font-weight: 600;
-      text-align: center;
-      text-shadow:
-        0 0 8px #fbb600aa,
-        0 0 20px #fbb60077;
-      animation: fadeInUp 2.5s ease forwards;
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      max-width: 700px;
+      animation: fadeIn 2s ease-in forwards;
       opacity: 0;
-    }
-    /* Fade in hero paragraph */
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
+      transform: translateY(15px);
+      animation-fill-mode: forwards;
+      animation-delay: 0.5s;
+      user-select: none;
     }
 
-    @keyframes pulseGlow {
-      0% {
-        text-shadow:
-          0 0 8px #fbb600,
-          0 0 15px #fbb600,
-          0 0 20px #fbb600,
-          0 0 30px #fbb600;
-      }
-      100% {
-        text-shadow:
-          0 0 20px #fbb600,
-          0 0 40px #fbb600,
-          0 0 60px #fbb600,
-          0 0 80px #fbb600;
-      }
+    @keyframes glowText {
+      from { text-shadow: 0 0 10px #fbb600; }
+      to { text-shadow: 0 0 20px #fbb600, 0 0 30px #fbb600; }
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Section styling */
+    /* Section styling with subtle fade-in on scroll */
     section {
+      padding: 80px 20px;
       max-width: 900px;
-      margin: 60px auto;
-      padding: 0 20px;
+      margin: 0 auto;
       text-align: center;
-      position: relative;
-      z-index: 1;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
     }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .section-title {
       font-family: 'Orbitron', sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 600;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
       color: #fbb600;
-      margin-bottom: 20px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-shadow:
-        0 0 10px #fbb600cc;
-    }
-    section p {
-      font-size: clamp(1rem, 1.5vw, 1.3rem);
-      line-height: 1.5;
-      color: #ddd;
-      max-width: 700px;
-      margin: 0 auto 30px;
-      text-shadow: 0 0 8px #000000aa;
+      margin-bottom: 25px;
+      user-select: none;
     }
 
-    /* Feature list */
     ul.features {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
       list-style: none;
+      gap: 20px;
       padding: 0;
+      margin-top: 20px;
     }
     ul.features li {
-      flex: 1 1 200px;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(8px);
+      flex: 1 1 220px;
+      background: rgba(255 255 255 / 0.05);
+      padding: 25px;
       border-radius: 15px;
-      padding: 20px 25px;
+      backdrop-filter: blur(6px);
       font-weight: 600;
       font-size: 1.1rem;
-      box-shadow:
-        0 0 12px #fbb60055,
-        inset 0 0 10px #fbb60033;
+      box-shadow: 0 0 10px #fbb60033;
+      user-select: none;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: default;
-      user-select: none;
     }
     ul.features li:hover {
-      transform: translateY(-8px);
-      box-shadow:
-        0 0 25px #fbb600cc,
-        inset 0 0 20px #fbb600aa;
-      background: rgba(255, 255, 255, 0.12);
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #fbb600cc;
     }
 
-    /* Roadmap */
+    /* Roadmap style */
     .roadmap {
       display: flex;
       flex-direction: column;
@@ -165,118 +154,72 @@
       margin: 0 auto;
     }
     .roadmap span {
-      background: #120f20;
-      border-left: 5px solid #fbb600;
-      padding: 18px 25px;
+      display: block;
+      background: #111;
+      padding: 18px 20px;
+      border-left: 6px solid #fbb600;
       font-weight: 600;
       font-size: 1.1rem;
-      color: #eee;
-      box-shadow:
-        0 0 10px #fbb60055;
-      border-radius: 8px;
+      border-radius: 5px;
       user-select: none;
+      box-shadow: 0 0 10px #fbb60044;
       transition: background 0.3s ease;
     }
     .roadmap span:hover {
-      background: #fbb600;
-      color: #120f20;
-      font-weight: 700;
-      box-shadow:
-        0 0 20px #fbb600cc;
-      cursor: default;
+      background: #222;
     }
 
-    /* Call to Action */
+    /* Call to action section */
     .cta {
-      max-width: 600px;
-      margin: 60px auto;
-      padding: 40px 30px;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      box-shadow:
-        0 0 20px #fbb60077;
+      margin-top: 50px;
       text-align: center;
-    }
-    .cta h2 {
-      font-family: 'Orbitron', sans-serif;
-      color: #fbb600;
-      margin-bottom: 15px;
-      font-size: 2rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
       user-select: none;
     }
-    .cta p {
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 25px;
-      font-size: 1.2rem;
-      text-shadow: 0 0 10px #fbb600aa;
-    }
-    .cta input[type="email"] {
-      width: 70%;
-      max-width: 320px;
-      padding: 15px 20px;
+    .cta input[type=email] {
+      padding: 14px 18px;
+      width: 280px;
+      max-width: 90vw;
       border: none;
-      border-radius: 50px;
+      border-radius: 10px 0 0 10px;
       font-size: 1rem;
-      font-weight: 600;
-      outline: none;
-      transition: box-shadow 0.3s ease;
-      box-shadow:
-        0 0 8px #fbb60088 inset;
-      background: rgba(0,0,0,0.3);
-      color: #fbb600;
-      user-select: text;
+      outline-offset: 3px;
+      outline-color: #fbb600;
+      transition: outline-color 0.3s ease;
     }
-    .cta input[type="email"]::placeholder {
-      color: #fbb600bb;
-      font-weight: 500;
-    }
-    .cta input[type="email"]:focus {
-      box-shadow:
-        0 0 15px #fbb600cc inset;
-      background: rgba(0,0,0,0.6);
-      color: #fff;
+    .cta input[type=email]:focus {
+      outline-color: #ffdd55;
     }
     .cta button {
-      margin-left: 15px;
-      background: linear-gradient(135deg, #fbb600 0%, #ffdc4d 100%);
+      background-color: #fbb600;
       border: none;
       padding: 15px 30px;
-      border-radius: 50px;
       font-weight: 700;
       font-size: 1rem;
-      color: #120f20;
+      border-radius: 0 10px 10px 0;
       cursor: pointer;
-      box-shadow:
-        0 0 20px #fbb600cc;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
+      transition: background-color 0.3s ease;
       user-select: none;
     }
     .cta button:hover {
-      background: linear-gradient(135deg, #ffdc4d 0%, #fbb600 100%);
-      box-shadow:
-        0 0 35px #fbb600ff;
+      background-color: #ffdd55;
     }
+
+    /* Social icons */
     .social-icons {
-      margin-top: 30px;
+      margin-top: 25px;
       display: flex;
       justify-content: center;
-      gap: 35px;
-      filter: drop-shadow(0 0 2px #fbb600cc);
-      user-select: none;
+      gap: 25px;
     }
     .social-icons img {
-      width: 35px;
-      height: 35px;
-      cursor: pointer;
-      transition: transform 0.3s ease, filter 0.3s ease;
+      height: 32px;
+      width: 32px;
       filter: brightness(0) invert(1);
+      transition: filter 0.3s ease;
+      cursor: pointer;
+      user-select: none;
     }
     .social-icons img:hover {
-      transform: scale(1.3);
       filter: brightness(1) invert(0);
     }
 
@@ -285,40 +228,23 @@
       text-align: center;
       padding: 40px 20px;
       font-size: 0.9rem;
-      color: #aaa;
-      text-shadow: 0 0 6px #000;
+      color: #888;
       user-select: none;
     }
 
-    /* Stars background - more subtle & dynamic */
-    .stars {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: url('https://www.transparenttextures.com/patterns/stardust.png');
-      z-index: 0;
-      opacity: 0.18;
-      pointer-events: none;
-      animation: moveStars 300s linear infinite;
-      filter: brightness(0.9);
-    }
-    @keyframes moveStars {
-      from { background-position: 0 0; }
-      to { background-position: 15000px 15000px; }
-    }
-
-    /* Cursor trail upgrade - subtle and less intrusive */
+    /* Smaller cursor trail dots */
     .cursor-trail {
       position: fixed;
-      width: 12px;
-      height: 12px;
-      background: radial-gradient(circle, #fbb600, #b37f00);
+      width: 5px;
+      height: 5px;
+      background: #fbb600;
       border-radius: 50%;
       pointer-events: none;
-      animation: fadeOut 0.9s forwards;
+      animation: fadeOut 0.8s forwards;
       z-index: 9999;
-      mix-blend-mode: screen;
-      filter: drop-shadow(0 0 6px #fbb600cc);
-      opacity: 0.9;
+      opacity: 0.8;
+      filter: drop-shadow(0 0 4px #fbb600);
+      user-select: none;
     }
     @keyframes fadeOut {
       to {
@@ -327,23 +253,26 @@
       }
     }
 
-    /* Responsive tweaks */
-    @media (max-width: 768px) {
-      ul.features {
-        flex-direction: column;
-        gap: 15px;
-      }
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
       ul.features li {
-        flex: none;
-        width: 100%;
+        flex: 1 1 100%;
       }
-      .cta input[type="email"] {
+      .hero h1 {
+        font-size: clamp(2rem, 7vw, 3.8rem);
+        white-space: normal;
+      }
+      .cta input[type=email] {
         width: 100%;
+        border-radius: 10px;
         margin-bottom: 15px;
       }
       .cta button {
         width: 100%;
-        margin-left: 0;
+        border-radius: 10px;
+      }
+      .social-icons {
+        gap: 15px;
       }
     }
   </style>
@@ -351,31 +280,31 @@
 <body>
   <div class="stars"></div>
 
-  <header class="hero" role="banner">
-    <h1 class="glow-text" style="word-break: keep-all;">rickymaru.metaverse</h1>
-    <p>A borderless society for explorers, creators, and dreamers – built on trust, imagination, and digital freedom.</p>
-  </header>
+  <div class="container">
+    <header class="hero" id="hero">
+      <h1>rickymaru.metaverse</h1>
+      <p>A borderless society for explorers, creators, and dreamers – built on trust, imagination and digital freedom.</p>
+    </header>
 
-  <main>
-    <section aria-labelledby="vision-title">
-      <h2 id="vision-title" class="section-title glow-text">The Vision</h2>
+    <section>
+      <h2 class="section-title">The Vision</h2>
       <p>Rickymaru is the first browser-based web3 digital nation.</p>
     </section>
 
-    <section aria-labelledby="society-title">
-      <h2 id="society-title" class="section-title glow-text">Digital Society</h2>
-      <p>It merges identity, social connection, commerce, and exploration in one unified realm.</p>
+    <section>
+      <h2 class="section-title">Digital Society</h2>
+      <p>It merges identity, social connection, commerce and exploration in one unified realm.</p>
     </section>
 
-    <section aria-labelledby="belonging-title">
-      <h2 id="belonging-title" class="section-title glow-text">A Belonging-First Future</h2>
+    <section>
+      <h2 class="section-title">A Belonging-First Future</h2>
       <p>Rickymaru is more than a platform — it's a foundation for a new kind of world where everyone belongs.</p>
     </section>
 
-    <section aria-labelledby="features-title">
-      <h2 id="features-title" class="section-title glow-text">What You Can Do</h2>
-      <p>We believe in a digital future where identity is yours, creativity is currency, and your community is global.</p>
-      <ul class="features" role="list">
+    <section>
+      <h2 class="section-title">What You Can Do</h2>
+      <p>We believe in a digital future where identity is yours, creativity is currency and your community is global.</p>
+      <ul class="features">
         <li>🛒 Shop immersive NFT experiences</li>
         <li>🎭 Customise your avatar and identity</li>
         <li>🎉 Join events, exhibitions & social hubs</li>
@@ -383,59 +312,57 @@
       </ul>
     </section>
 
-    <section aria-labelledby="roadmap-title">
-      <h2 id="roadmap-title" class="section-title glow-text">Roadmap</h2>
-      <div class="roadmap" role="list">
+    <section>
+      <h2 class="section-title">Roadmap</h2>
+      <div class="roadmap">
         <span>🌱 Genesis – Concept launched, community forming (Q2 2025)</span>
-        <span>🧪 Prototype & MVP – Experience preview & first citizen trials (Q3–Q4 2025)</span>
+        <span>🧪 Prototype &amp; MVP – Experience preview &amp; first citizen trials (Q3–Q4 2025)</span>
         <span>🌍 Phase 1 Nationhood – Full realm with shopping, avatars, social layer (Early 2026)</span>
         <span>🛠️ Phase 2 Expansion – DAO governance, economic layer, wider onboarding (Mid 2026)</span>
         <span>🚀 Phase 3 Open Universe – Integration with wider metaverses and institutions (2027+)</span>
       </div>
     </section>
 
-    <section class="cta" aria-labelledby="join-title">
-      <h2 id="join-title" class="glow-text">Join the Movement</h2>
+    <section class="cta">
+      <h2 class="section-title">Join the Movement</h2>
       <p>Become a founding citizen. Shape the new world!</p>
-      <form onsubmit="event.preventDefault(); alert('Thank you for signing up!');" aria-label="Join Rickymaru newsletter form">
-        <input type="email" placeholder="Enter your email" required aria-required="true" aria-label="Email address" />
-        <button type="submit" aria-label="Sign up for Rickymaru">Sign Up</button>
-      </form>
-      <div class="social-icons" role="list" aria-label="Social media links">
-        <a href="https://discord.gg/yourinvite" target="_blank" rel="noopener" aria-label="Discord">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Font_Awesome_5_brands_discord.svg" alt="Discord logo" />
-        </a>
-        <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener" aria-label="Instagram">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram logo" />
-        </a>
-        <a href="https://tiktok.com/@yourhandle" target="_blank" rel="noopener" aria-label="TikTok">
-          <img src="https://upload.wikimedia.org/wikipedia/en/9/9f/TikTok_logo.svg" alt="TikTok logo" />
-        </a>
+      <input type="email" placeholder="Enter your email" />
+      <button>Sign Up</button>
+      <div class="social-icons">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Font_Awesome_5_brands_discord.svg" alt="Discord" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" />
+        <img src="https://upload.wikimedia.org/wikipedia/en/9/9f/TikTok_logo.svg" alt="TikTok" />
       </div>
     </section>
-  </main>
 
-  <footer>
-    &copy; 2025 Rickymaru – All rights reserved.
-  </footer>
+    <footer>
+      &copy; 2025 Rickymaru – All rights reserved.
+    </footer>
+  </div>
 
   <script>
-    // Cursor trail effect
+    // Cursor trail with smaller dots
     document.addEventListener('mousemove', e => {
       const dot = document.createElement('div');
       dot.className = 'cursor-trail';
       dot.style.left = `${e.pageX}px`;
       dot.style.top = `${e.pageY}px`;
       document.body.appendChild(dot);
-      setTimeout(() => dot.remove(), 900);
+      setTimeout(() => dot.remove(), 800);
     });
 
-    // Animate hero paragraph after load
-    window.addEventListener('load', () => {
-      const heroP = document.querySelector('.hero p');
-      if (heroP) heroP.style.opacity = '1';
-      heroP.style.transform = 'translateY(0)';
-    });
+    // Reveal sections on scroll
+    const sections = document.querySelectorAll('section');
+    const revealOnScroll = () => {
+      const scrollY = window.scrollY + window.innerHeight * 0.75;
+      sections.forEach(section => {
+        if (scrollY > section.offsetTop) {
+          section.classList.add('visible');
+        }
+      });
+    };
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
   </script>
 </body>
 </html>
