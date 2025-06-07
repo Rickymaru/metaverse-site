@@ -3,125 +3,174 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rickymaru.Metaverse – A New Kind of Nation</title>
+  <title>Rickymaru – A New Kind of Nation</title>
+  <meta name="description" content="Rickymaru is the first browser-based Web3 digital nation. Join the utopian digital society of explorers, creators, and dreamers." />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@400;600&display=swap" />
   <style>
-    html, body {
+    * {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to bottom, #0a0a23, #1b1b3a);
-      color: white;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #000000, #0c0c1d);
+      color: #ffffff;
+      line-height: 1.6;
       scroll-behavior: smooth;
     }
-    header {
-      background: #00000090;
-      padding: 2rem 1rem;
+    header, section {
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero {
+      text-align: center;
+      padding: 120px 20px 60px;
+      background: url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.2rem;
+      color: #fbb600;
+      word-break: break-word;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 20px;
+      max-width: 600px;
+    }
+    .section-title {
+      font-size: 2rem;
+      color: #fbb600;
+      margin-bottom: 20px;
       text-align: center;
     }
-    header h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-      color: #fbb600;
-    }
-    header p {
-      font-style: italic;
-      font-size: 1.2rem;
-    }
-    section {
-      padding: 5rem 1rem;
-      max-width: 900px;
-      margin: auto;
-    }
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #fbb600;
-    }
-    .features ul {
+    ul.features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
       list-style: none;
       padding: 0;
     }
-    .features li {
-      background: #29294a;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-left: 5px solid #fbb600;
+    ul.features li {
+      flex: 1 1 45%;
+      margin: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
     }
-    .roadmap div {
-      margin-bottom: 2rem;
+    .roadmap {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .roadmap span {
+      display: block;
+      background: #222;
+      padding: 15px;
+      border-left: 5px solid #fbb600;
     }
     .cta {
       text-align: center;
+      margin-top: 50px;
     }
-    .cta input[type="email"] {
-      padding: 0.5rem;
-      font-size: 1rem;
-      width: 60%;
-      max-width: 400px;
+    .cta input[type=email] {
+      padding: 10px;
+      width: 250px;
+      max-width: 80%;
+      border: none;
+      margin-right: 10px;
+      border-radius: 5px;
     }
     .cta button {
-      background: #fbb600;
-      color: #000;
-      padding: 0.5rem 1rem;
+      background-color: #fbb600;
       border: none;
+      padding: 10px 20px;
       font-weight: bold;
+      border-radius: 5px;
       cursor: pointer;
-      margin-top: 1rem;
+    }
+    .social-icons {
+      margin-top: 20px;
+    }
+    .social-icons img {
+      height: 30px;
+      margin: 0 10px;
+      filter: brightness(0) invert(1);
     }
     footer {
       text-align: center;
-      padding: 2rem;
-      background: #111;
+      padding: 40px 20px;
       font-size: 0.9rem;
       color: #999;
+    }
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.4rem;
+      }
+      ul.features li {
+        flex: 1 1 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
+  <header class="hero">
     <h1>rickymaru.metaverse</h1>
-    <p>a new kind of nation</p>
-    <p>a borderless society for explorers, creators and dreamers – built on trust, imagination and digital freedom.</p>
+    <p>A borderless society for explorers, creators, and dreamers – built on trust, imagination and digital freedom.</p>
   </header>
 
-  <section class="vision">
-    <h2>The Vision</h2>
+  <section>
+    <h2 class="section-title">The Vision</h2>
     <p>Rickymaru is the first browser-based web3 digital nation – merging identity, social connection, commerce and exploration in one digital realm. We believe in a digital future where identity is yours, creativity is currency and your community is global. Rickymaru is more than a platform, it’s the foundation of a new kind of world, where everyone belongs.</p>
   </section>
 
-  <section class="features">
-    <h2>What You Can Do</h2>
-    <ul>
-      <li>🛍️ Browse & shop exclusive NFTs in immersive environments</li>
-      <li>🧍‍♂️ Customize your avatar and digital identity</li>
-      <li>🎉 Participate in social events, exhibitions & community hubs</li>
-      <li>🌐 Explore new realms and unlock interactive experiences</li>
+  <section>
+    <h2 class="section-title">What You Can Do</h2>
+    <ul class="features">
+      <li>🛒 Shop immersive NFT experiences</li>
+      <li>🎭 Customise your avatar and identity</li>
+      <li>🎉 Join events, exhibitions & social hubs</li>
+      <li>🗳️ Engage in community governance</li>
     </ul>
   </section>
 
-  <section class="roadmap">
-    <h2>Roadmap</h2>
-    <div>🌱 <strong>Genesis</strong> – Concept launched, community forming (Q2 2025)</div>
-    <div>🧪 <strong>Prototype & MVP</strong> – Experience preview & first citizen trials (Q3–Q4 2025)</div>
-    <div>🌍 <strong>Phase 1 Nationhood</strong> – Full realm with shopping, avatars, social layer (Early 2026)</div>
-    <div>🛠️ <strong>Phase 2 Expansion</strong> – DAO governance, economic layer, wider onboarding (Mid 2026)</div>
-    <div>🚀 <strong>Phase 3 Open Universe</strong> – Integration with wider metaverses and institutions (2027+)</div>
+  <section>
+    <h2 class="section-title">Roadmap</h2>
+    <div class="roadmap">
+      <span>🌱 Genesis – Concept launched, community forming (Q2 2025)</span>
+      <span>🧪 Prototype & MVP – Experience preview & first citizen trials (Q3–Q4 2025)</span>
+      <span>🌍 Phase 1 Nationhood – Full realm with shopping, avatars, social layer (Early 2026)</span>
+      <span>🛠️ Phase 2 Expansion – DAO governance, economic layer, wider onboarding (Mid 2026)</span>
+      <span>🚀 Phase 3 Open Universe – Integration with wider metaverses and institutions (2027+)</span>
+    </div>
   </section>
 
   <section class="cta">
-    <h2>Join the Movement</h2>
+    <h2 class="section-title">Join the Movement</h2>
     <p>Become a founding citizen. Shape the new world!</p>
-    <input type="email" placeholder="Enter your email to join the waitlist" />
-    <br/>
-    <button>Join Now</button>
-    <div style="margin-top: 1rem;">
-      <span>🔗</span>
-      <span>Discord</span> · <span>Instagram</span> · <span>TikTok</span>
+    <input type="email" placeholder="Enter your email" />
+    <button>Sign Up</button>
+    <div class="social-icons">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Font_Awesome_5_brands_discord.svg" alt="Discord">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+      <img src="https://upload.wikimedia.org/wikipedia/en/9/9f/TikTok_logo.svg" alt="TikTok">
     </div>
   </section>
 
   <footer>
-    &copy; 2025 Rickymaru.Metaverse – Designed for dreamers, built by visionaries.
+    &copy; 2025 Rickymaru – All rights reserved.
   </footer>
 </body>
 </html>
