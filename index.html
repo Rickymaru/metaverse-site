@@ -1,146 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rickymaru.Metaverse</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: #000;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        /* Background Image Styles */
-        #background {
-            position: fixed;
-            top: -150%;
-            left: -50%;
-            width: 200%;
-            height: 400%;
-            background: url('3d-hyperspace-background-with-warp-tunnel-effect.jpg') no-repeat center center;
-            background-size: cover;
-            z-index: -1;
-            will-change: transform;
-        }
-
-        /* Header Styles */
-        #header {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 10;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-
-        #main-title {
-            font-size: 5em;
-            color: #FBB600;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            text-shadow: 0 0 20px rgba(251, 182, 0, 0.8);
-            margin: 0;
-            font-family: 'Orbitron', sans-serif;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-        }
-
-        /* Hovering Title Styles */
-        #hovering-title {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: 2;
-        }
-
-        #hovering-title.visible {
-            opacity: 1;
-        }
-
-        /* Content Styles */
-        .content {
-            position: relative;
-            z-index: 1;
-            padding: 50px 20px;
-            text-align: center;
-        }
-
-        .content > div {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 50px 20px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rickymaru – A New Kind of Nation</title>
+  <meta name="description" content="Rickymaru is the first browser-based Web3 digital nation. Join the utopian digital society of explorers, creators, and dreamers." />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@400;600&display=swap" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #ffffff;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+      background-attachment: fixed;
+      position: relative;
+    }
+    header, section {
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero {
+      text-align: center;
+      padding: 120px 20px 60px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.2rem;
+      color: #fbb600;
+      word-break: break-word;
+      z-index: 2;
+      animation: glowText 3s ease-in-out infinite alternate;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 20px;
+      max-width: 600px;
+      z-index: 2;
+      animation: fadeIn 2s ease-in;
+    }
+    @keyframes glowText {
+      from { text-shadow: 0 0 10px #fbb600; }
+      to { text-shadow: 0 0 20px #fbb600, 0 0 30px #fbb600; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .section-title {
+      font-size: 2rem;
+      color: #fbb600;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    ul.features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      list-style: none;
+      padding: 0;
+    }
+    ul.features li {
+      flex: 1 1 45%;
+      margin: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      backdrop-filter: blur(4px);
+    }
+    .roadmap {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .roadmap span {
+      display: block;
+      background: #111;
+      padding: 15px;
+      border-left: 5px solid #fbb600;
+    }
+    .cta {
+      text-align: center;
+      margin-top: 50px;
+    }
+    .cta input[type=email] {
+      padding: 10px;
+      width: 250px;
+      max-width: 80%;
+      border: none;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+    .cta button {
+      background-color: #fbb600;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .social-icons {
+      margin-top: 20px;
+    }
+    .social-icons img {
+      height: 30px;
+      margin: 0 10px;
+      filter: brightness(0) invert(1);
+    }
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.9rem;
+      color: #999;
+    }
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('https://www.transparenttextures.com/patterns/stardust.png');
+      z-index: 0;
+      opacity: 0.3;
+      pointer-events: none;
+      animation: moveStars 200s linear infinite;
+    }
+    @keyframes moveStars {
+      from { background-position: 0 0; }
+      to { background-position: 10000px 10000px; }
+    }
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.4rem;
+      }
+      ul.features li {
+        flex: 1 1 100%;
+      }
+    }
+    .cursor-trail {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: #fbb600;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: fadeOut 0.8s forwards;
+      z-index: 9999;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+  </style>
 </head>
 <body>
-    <div id="background"></div>
+  <div class="stars"></div>
+  <header class="hero">
+    <h1>rickymaru.metaverse</h1>
+    <p>A borderless society for explorers, creators, and dreamers – built on trust, imagination and digital freedom.</p>
+  </header>
 
-    <header id="header">
-        <h1 id="main-title">rickymaru.metaverse</h1>
-    </header>
+  <section>
+    <h2 class="section-title">The Vision</h2>
+    <p>Rickymaru is the first browser-based web3 digital nation.</p>
+  </section>
 
-    <div id="hovering-title">
-        <h1>rickymaru.metaverse</h1>
+  <section>
+    <h2 class="section-title">Digital Society</h2>
+    <p>It merges identity, social connection, commerce and exploration in one unified realm.</p>
+  </section>
+
+  <section>
+    <h2 class="section-title">A Belonging-First Future</h2>
+    <p>Rickymaru is more than a platform — it's a foundation for a new kind of world where everyone belongs.</p>
+  </section>
+
+  <section>
+    <h2 class="section-title">What You Can Do</h2>
+    <p>We believe in a digital future where identity is yours, creativity is currency and your community is global.</p>
+    <ul class="features">
+      <li>🛒 Shop immersive NFT experiences</li>
+      <li>🎭 Customise your avatar and identity</li>
+      <li>🎉 Join events, exhibitions & social hubs</li>
+      <li>🗳️ Engage in community governance</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="section-title">Roadmap</h2>
+    <div class="roadmap">
+      <span>🌱 Genesis – Concept launched, community forming (Q2 2025)</span>
+      <span>🧪 Prototype & MVP – Experience preview & first citizen trials (Q3–Q4 2025)</span>
+      <span>🌍 Phase 1 Nationhood – Full realm with shopping, avatars, social layer (Early 2026)</span>
+      <span>🛠️ Phase 2 Expansion – DAO governance, economic layer, wider onboarding (Mid 2026)</span>
+      <span>🚀 Phase 3 Open Universe – Integration with wider metaverses and institutions (2027+)</span>
     </div>
+  </section>
 
-    <div class="content">
-        <!-- Your content sections here -->
-        <div>
-            <h2>Welcome to Rickymaru.Metaverse</h2>
-            <p>This is a futuristic metaverse experience.</p>
-        </div>
-
-        <div>
-            <h2>Features</h2>
-            <p>Explore our metaverse and discover its features.</p>
-        </div>
-
-        <div>
-            <h2>Roadmap</h2>
-            <p>Learn about our plans and milestones.</p>
-        </div>
+  <section class="cta">
+    <h2 class="section-title">Join the Movement</h2>
+    <p>Become a founding citizen. Shape the new world!</p>
+    <input type="email" placeholder="Enter your email" />
+    <button>Sign Up</button>
+    <div class="social-icons">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Font_Awesome_5_brands_discord.svg" alt="Discord">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+      <img src="https://upload.wikimedia.org/wikipedia/en/9/9f/TikTok_logo.svg" alt="TikTok">
     </div>
+  </section>
 
-    <script>
-        // Get the header and hovering title elements
-        const header = document.getElementById('header');
-        const hoveringTitle = document.getElementById('hovering-title');
+  <footer>
+    &copy; 2025 Rickymaru – All rights reserved.
+  </footer>
 
-        // Add event listener for scroll
-        window.addEventListener('scroll', () => {
-            const scrollPosition = window.scrollY;
-            const documentHeight = document.documentElement.scrollHeight;
-            const windowHeight = window.innerHeight;
-
-            if (scrollPosition + windowHeight >= documentHeight - 200) {
-                header.style.opacity = 0;
-                hoveringTitle.classList.add('visible');
-            } else {
-                header.style.opacity = 1;
-                hoveringTitle.classList.remove('visible');
-            }
-        });
-    </script>
+  <script>
+    document.addEventListener('mousemove', function(e) {
+      const dot = document.createElement('div');
+      dot.className = 'cursor-trail';
+      dot.style.left = `${e.pageX}px`;
+      dot.style.top = `${e.pageY}px`;
+      document.body.appendChild(dot);
+      setTimeout(() => dot.remove(), 800);
+    });
+  </script>
 </body>
 </html>
