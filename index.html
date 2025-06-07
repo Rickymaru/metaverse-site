@@ -18,10 +18,11 @@
     }
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom, #000000, #0c0c1d);
+      background: radial-gradient(circle at 50% 50%, #090a1a, #000);
       color: #ffffff;
       line-height: 1.6;
       scroll-behavior: smooth;
+      background-attachment: fixed;
     }
     header, section {
       padding: 60px 20px;
@@ -31,12 +32,27 @@
     .hero {
       text-align: center;
       padding: 120px 20px 60px;
-      background: url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+      background: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      position: relative;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1;
+    }
+    .hero h1, .hero p {
+      position: relative;
+      z-index: 2;
     }
     .hero h1 {
       font-family: 'Orbitron', sans-serif;
@@ -69,6 +85,7 @@
       padding: 20px;
       border-radius: 10px;
       text-align: center;
+      backdrop-filter: blur(4px);
     }
     .roadmap {
       display: flex;
@@ -77,7 +94,7 @@
     }
     .roadmap span {
       display: block;
-      background: #222;
+      background: #111;
       padding: 15px;
       border-left: 5px solid #fbb600;
     }
@@ -115,6 +132,16 @@
       font-size: 0.9rem;
       color: #999;
     }
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('https://www.transparenttextures.com/patterns/stardust.png');
+      z-index: 0;
+      opacity: 0.3;
+    }
     @media (max-width: 768px) {
       .hero h1 {
         font-size: 2.4rem;
@@ -126,6 +153,7 @@
   </style>
 </head>
 <body>
+  <div class="stars"></div>
   <header class="hero">
     <h1>rickymaru.metaverse</h1>
     <p>A borderless society for explorers, creators, and dreamers – built on trust, imagination and digital freedom.</p>
