@@ -23,6 +23,7 @@
       line-height: 1.6;
       scroll-behavior: smooth;
       background-attachment: fixed;
+      position: relative;
     }
     header, section {
       padding: 60px 20px;
@@ -32,7 +33,6 @@
     .hero {
       text-align: center;
       padding: 120px 20px 60px;
-      background: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -40,30 +40,18 @@
       align-items: center;
       position: relative;
     }
-    .hero::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 1;
-    }
-    .hero h1, .hero p {
-      position: relative;
-      z-index: 2;
-    }
     .hero h1 {
       font-family: 'Orbitron', sans-serif;
       font-size: 3.2rem;
       color: #fbb600;
       word-break: break-word;
+      z-index: 2;
     }
     .hero p {
       font-size: 1.2rem;
       margin-top: 20px;
       max-width: 600px;
+      z-index: 2;
     }
     .section-title {
       font-size: 2rem;
@@ -141,6 +129,7 @@
       background: url('https://www.transparenttextures.com/patterns/stardust.png');
       z-index: 0;
       opacity: 0.3;
+      pointer-events: none;
     }
     @media (max-width: 768px) {
       .hero h1 {
@@ -148,6 +137,22 @@
       }
       ul.features li {
         flex: 1 1 100%;
+      }
+    }
+    .cursor-trail {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: #fbb600;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: fadeOut 0.8s forwards;
+      z-index: 9999;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(2);
       }
     }
   </style>
@@ -161,11 +166,12 @@
 
   <section>
     <h2 class="section-title">The Vision</h2>
-    <p>Rickymaru is the first browser-based web3 digital nation – merging identity, social connection, commerce and exploration in one digital realm. We believe in a digital future where identity is yours, creativity is currency and your community is global. Rickymaru is more than a platform, it’s the foundation of a new kind of world, where everyone belongs.</p>
+    <p>Rickymaru is the first browser-based web3 digital nation – merging identity, social connection, commerce and exploration in one digital realm.</p>
   </section>
 
   <section>
     <h2 class="section-title">What You Can Do</h2>
+    <p>We believe in a digital future where identity is yours, creativity is currency and your community is global.</p>
     <ul class="features">
       <li>🛒 Shop immersive NFT experiences</li>
       <li>🎭 Customise your avatar and identity</li>
@@ -176,6 +182,7 @@
 
   <section>
     <h2 class="section-title">Roadmap</h2>
+    <p>Rickymaru is more than a platform, it’s the foundation of a new kind of world, where everyone belongs.</p>
     <div class="roadmap">
       <span>🌱 Genesis – Concept launched, community forming (Q2 2025)</span>
       <span>🧪 Prototype & MVP – Experience preview & first citizen trials (Q3–Q4 2025)</span>
@@ -200,5 +207,16 @@
   <footer>
     &copy; 2025 Rickymaru – All rights reserved.
   </footer>
+
+  <script>
+    document.addEventListener('mousemove', function(e) {
+      const dot = document.createElement('div');
+      dot.className = 'cursor-trail';
+      dot.style.left = `${e.pageX}px`;
+      dot.style.top = `${e.pageY}px`;
+      document.body.appendChild(dot);
+      setTimeout(() => dot.remove(), 800);
+    });
+  </script>
 </body>
 </html>
