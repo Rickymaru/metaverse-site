@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rickymaru - The Digital Kingdom</title>
   <style>
-    /* Basic Reset & Body */
     body, html {
       margin: 0; padding: 0; height: 100%;
       background: #000;
@@ -14,7 +13,6 @@
       overflow-x: hidden;
     }
 
-    /* Particle canvas full screen behind */
     #background-canvas {
       position: fixed;
       top: 0; left: 0;
@@ -53,7 +51,6 @@
       transform: translateY(0);
     }
 
-    /* Links */
     a {
       color: #fbb600;
       text-decoration: none;
@@ -71,6 +68,25 @@
       color: #fbb600aa;
       user-select: none;
     }
+
+    /* Avatar container */
+    #avatar-container {
+      max-width: 320px;
+      margin: 2rem auto;
+      border: 2px solid #fbb600cc;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 15px #fbb60088;
+    }
+
+    iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+      display: block;
+      background: #111;
+    }
+
   </style>
 
   <!-- Google Fonts -->
@@ -112,6 +128,16 @@
       </ul>
     </section>
 
+    <section class="fade-in" id="avatar-container">
+      <h2 style="text-align:center; color:#fbb600;">Meet Your Avatar</h2>
+      <!-- Replace src below with your own Ready Player Me avatar link -->
+      <iframe
+        src="https://readyplayer.me/avatar?frameApi"
+        title="Ready Player Me Avatar"
+        allow="autoplay; fullscreen; vr"
+      ></iframe>
+    </section>
+
     <section class="fade-in">
       <h2>Next Steps</h2>
       <p>
@@ -126,7 +152,41 @@
     &copy; 2025 Rickymaru. All rights reserved.
   </footer>
 
+  <audio id="ambient-audio" loop autoplay muted>
+    <source src="https://cdn.pixabay.com/download/audio/2022/02/17/audio_865f0bf62e.mp3?filename=ambient-digital-hum-14572.mp3" type="audio/mpeg" />
+    <!-- fallback -->
+  </audio>
+
   <script>
+    // Fade in on scroll
+    function onScrollAnimations() {
+      const fadeEls = document.querySelectorAll('section.fade-in');
+      fadeEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if(rect.top < window.innerHeight * 0.85) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', onScrollAnimations);
+    window.addEventListener('load', onScrollAnimations);
+
+    // Ambient sound volume fade in after 2 seconds (for subtlety)
+    const ambientAudio = document.getElementById('ambient-audio');
+    ambientAudio.volume = 0;
+    ambientAudio.muted = false;
+    setTimeout(() => {
+      let vol = 0;
+      const fadeInterval = setInterval(() => {
+        if (vol < 0.12) {
+          vol += 0.01;
+          ambientAudio.volume = vol;
+        } else {
+          clearInterval(fadeInterval);
+        }
+      }, 200);
+    }, 2000);
+
     // PARTICLES BACKGROUND
     (() => {
       const canvas = document.getElementById('background-canvas');
@@ -191,19 +251,6 @@
       init();
       animate();
     })();
-
-    // Scroll fade-in animation for sections
-    function onScrollAnimations() {
-      const fadeEls = document.querySelectorAll('section.fade-in');
-      fadeEls.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if(rect.top < window.innerHeight * 0.85) {
-          el.classList.add('visible');
-        }
-      });
-    }
-    window.addEventListener('scroll', onScrollAnimations);
-    window.addEventListener('load', onScrollAnimations);
   </script>
 
 </body>
