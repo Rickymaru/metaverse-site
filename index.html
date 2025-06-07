@@ -1,354 +1,368 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Rickymaru - The Digital Kingdom</title>
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
-  
+  <title>Rickymaru – A New Kind of Nation</title>
+  <meta name="description" content="Rickymaru is the first browser-based Web3 digital nation. Join the utopian digital society of explorers, creators, and dreamers." />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@400;600&display=swap" />
   <style>
     /* Reset */
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-
     html, body {
-      height: 100%;
-      background: #000;
-      color: #fbb600;
-      font-family: 'Inter', sans-serif;
+      width: 100%;
       overflow-x: hidden;
-      user-select: none;
-    }
-
-    /* Background Canvas */
-    #background-canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: -1;
-      background: radial-gradient(circle at center, #1a1200 0%, #000000 90%);
-    }
-
-    /* Glowing text and flicker animation */
-    header {
-      text-align: center;
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 700;
-      font-size: clamp(2rem, 8vw, 4rem);
-      color: #fbb600;
-      text-shadow:
-        0 0 10px #fbb600,
-        0 0 20px #fbb600,
-        0 0 30px #fbb600,
-        0 0 40px #ffdd55,
-        0 0 70px #ffdd55;
-      margin-top: 2rem;
-      animation: flicker 3s infinite alternate;
-      user-select: none;
-    }
-
-    header small {
-      display: block;
-      margin-top: 0.3rem;
-      font-weight: 400;
+      scroll-behavior: smooth;
+      background: #000;
+      color: #fff;
       font-family: 'Inter', sans-serif;
-      font-size: clamp(0.7rem, 2vw, 1rem);
-      color: #fbb600cc;
-      text-shadow: 0 0 10px #fbb600aa;
-      letter-spacing: 0.12em;
+      line-height: 1.6;
+      /* Force smooth scroll */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    /* Fixed star background with subtle slow movement */
+    .stars {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://www.transparenttextures.com/patterns/stardust.png');
+      opacity: 0.2;
+      z-index: 0;
+      pointer-events: none;
+      animation: moveStars 300s linear infinite;
+    }
+    @keyframes moveStars {
+      from { background-position: 0 0; }
+      to { background-position: 10000px 10000px; }
+    }
+
+    /* Container to center everything and limit width */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Hero section with full viewport height */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 600;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      color: #fbb600;
+      white-space: nowrap;
+      overflow-wrap: normal;
+      text-overflow: ellipsis;
+      max-width: 90vw;
+      animation: glowText 3s ease-in-out infinite alternate;
+      user-select: none;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      max-width: 700px;
+      animation: fadeIn 2s ease-in forwards;
+      opacity: 0;
+      transform: translateY(15px);
+      animation-fill-mode: forwards;
+      animation-delay: 0.5s;
       user-select: none;
     }
 
-    @keyframes flicker {
-      0%, 100% {
-        text-shadow:
-          0 0 10px #fbb600,
-          0 0 20px #fbb600,
-          0 0 30px #fbb600,
-          0 0 40px #ffdd55,
-          0 0 70px #ffdd55;
-        opacity: 1;
-      }
-      50% {
-        text-shadow:
-          0 0 5px #fbb600,
-          0 0 10px #fbb600,
-          0 0 15px #fbb600;
-        opacity: 0.85;
-      }
+    @keyframes glowText {
+      from { text-shadow: 0 0 10px #fbb600; }
+      to { text-shadow: 0 0 20px #fbb600, 0 0 30px #fbb600; }
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    main {
-      max-width: 800px;
-      margin: 3rem auto 5rem auto;
-      padding: 0 1rem;
-      font-size: 1.15rem;
-      line-height: 1.6;
-      color: #fbb600ee;
-      user-select: text;
-    }
-
+    /* Section styling with subtle fade-in on scroll */
     section {
-      margin-bottom: 3.5rem;
-      background: #1c0f00cc;
-      border: 1.5px solid #fbb600bb;
-      border-radius: 12px;
-      padding: 1.7rem 2rem;
-      box-shadow:
-        0 0 8px #fbb600aa,
-        inset 0 0 15px #ffdd5599;
-      backdrop-filter: blur(4px);
+      padding: 80px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(40px);
       transition: opacity 1s ease, transform 1s ease;
-      user-select: text;
     }
     section.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    h2 {
+    .section-title {
       font-family: 'Orbitron', sans-serif;
-      font-weight: 700;
-      color: #fbb600;
-      margin-bottom: 1rem;
-      text-shadow:
-        0 0 7px #fbb600,
-        0 0 15px #ffdd55;
-    }
-
-    ul {
-      list-style: none;
-      padding-left: 0;
-      user-select: text;
-    }
-    ul li {
-      position: relative;
-      margin-bottom: 0.7rem;
-      padding-left: 1.3rem;
       font-weight: 600;
-      color: #fbb600dd;
-      text-shadow: 0 0 6px #fbb600aa;
-    }
-    ul li::before {
-      content: '•';
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: #ffdd55;
-      font-size: 1.4rem;
-      line-height: 1;
-      text-shadow:
-        0 0 8px #ffdd55,
-        0 0 15px #fbb600;
-    }
-
-    /* Avatar container with glow */
-    #avatar-container {
-      max-width: 320px;
-      margin: 2rem auto;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 3px solid #fbb600cc;
-      box-shadow: 0 0 20px #fbb600cc;
-      background: #120900dd;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      color: #fbb600;
+      margin-bottom: 25px;
       user-select: none;
-      transition: box-shadow 0.4s ease;
-    }
-    #avatar-container:hover {
-      box-shadow: 0 0 40px #ffdd5599, 0 0 70px #fbb600cc;
-    }
-    #avatar-container iframe {
-      width: 100%;
-      height: 400px;
-      border: none;
-      background: #000;
-      display: block;
     }
 
+    ul.features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      list-style: none;
+      gap: 20px;
+      padding: 0;
+      margin-top: 20px;
+    }
+    ul.features li {
+      flex: 1 1 220px;
+      background: rgba(255 255 255 / 0.05);
+      padding: 25px;
+      border-radius: 15px;
+      backdrop-filter: blur(6px);
+      font-weight: 600;
+      font-size: 1.1rem;
+      box-shadow: 0 0 10px #fbb60033;
+      user-select: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+    ul.features li:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #fbb600cc;
+    }
+
+    /* Roadmap style */
+    .roadmap {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .roadmap span {
+      display: block;
+      background: #111;
+      padding: 18px 20px;
+      border-left: 6px solid #fbb600;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      user-select: none;
+      box-shadow: 0 0 10px #fbb60044;
+      transition: background 0.3s ease;
+    }
+    .roadmap span:hover {
+      background: #222;
+    }
+
+    /* Call to action section */
+    .cta {
+      margin-top: 50px;
+      text-align: center;
+      user-select: none;
+    }
+    .cta input[type=email] {
+      padding: 14px 18px;
+      width: 280px;
+      max-width: 90vw;
+      border: none;
+      border-radius: 10px 0 0 10px;
+      font-size: 1rem;
+      outline-offset: 3px;
+      outline-color: #fbb600;
+      transition: outline-color 0.3s ease;
+    }
+    .cta input[type=email]:focus {
+      outline-color: #ffdd55;
+    }
+    .cta button {
+      background-color: #fbb600;
+      border: none;
+      padding: 15px 30px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 0 10px 10px 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    .cta button:hover {
+      background-color: #ffdd55;
+    }
+
+    /* Social icons */
+    .social-icons {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+    .social-icons img {
+      height: 32px;
+      width: 32px;
+      filter: brightness(0) invert(1);
+      transition: filter 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .social-icons img:hover {
+      filter: brightness(1) invert(0);
+    }
+
+    /* Footer */
     footer {
       text-align: center;
-      padding: 2rem 1rem 4rem 1rem;
+      padding: 40px 20px;
       font-size: 0.9rem;
-      color: #fbb60099;
+      color: #888;
       user-select: none;
-      text-shadow: 0 0 6px #fbb60088;
     }
 
-    /* Scroll fade-in effect */
-    .fade-in {
-      will-change: opacity, transform;
+    /* Smaller cursor trail dots */
+    .cursor-trail {
+      position: fixed;
+      width: 5px;
+      height: 5px;
+      background: #fbb600;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: fadeOut 0.8s forwards;
+      z-index: 9999;
+      opacity: 0.8;
+      filter: drop-shadow(0 0 4px #fbb600);
+      user-select: none;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(2);
+      }
     }
 
-    /* Particle dot style (canvas does this) */
-
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      ul.features li {
+        flex: 1 1 100%;
+      }
+      .hero h1 {
+        font-size: clamp(2rem, 7vw, 3.8rem);
+        white-space: normal;
+      }
+      .cta input[type=email] {
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 15px;
+      }
+      .cta button {
+        width: 100%;
+        border-radius: 10px;
+      }
+      .social-icons {
+        gap: 15px;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="stars"></div>
 
-  <canvas id="background-canvas"></canvas>
+  <div class="container">
+    <header class="hero" id="hero">
+      <h1>rickymaru.metaverse</h1>
+      <p>A borderless society for explorers, creators, and dreamers – built on trust, imagination and digital freedom.</p>
+    </header>
 
-  <header>
-    Rickymaru<br />
-    <small>
-      The Royal Interdimensional Collective Kingdom of Yonder in the Metaverse Across the Realms of the Universe
-    </small>
-  </header>
-
-  <main>
-    <section class="fade-in">
-      <h2>Vision</h2>
-      <p>
-        In the shadows of failing systems and fractured states, a sovereign mind rose not to conquer but to create.<br />
-        A digital monarch, the self-declared King of Rickymaru, claimed the unclaimed: the boundless space between servers, screens and souls.<br />
-        Thus, was born Rickymaru – The Royal Interdimensional Collective Kingdom of Yonder in the Metaverse Across the Realms of the Universe.<br />
-        No borders.<br />
-        No bias.<br />
-        No broken contracts of old.<br />
-        This was not escape but elevation.
-      </p>
+    <section>
+      <h2 class="section-title">The Vision</h2>
+      <p>Rickymaru is the first browser-based web3 digital nation.</p>
     </section>
 
-    <section class="fade-in">
-      <h2>Features</h2>
-      <ul>
-        <li>Immersive web3 metaverse accessible directly in the browser</li>
-        <li>Customizable avatars and interoperable digital identity</li>
-        <li>Community governance with DAO structures</li>
-        <li>Digital economy powered by native cryptocurrency</li>
-        <li>Utopian, inclusive vision for a digital sovereign nation</li>
+    <section>
+      <h2 class="section-title">Digital Society</h2>
+      <p>It merges identity, social connection, commerce and exploration in one unified realm.</p>
+    </section>
+
+    <section>
+      <h2 class="section-title">A Belonging-First Future</h2>
+      <p>Rickymaru is more than a platform — it's a foundation for a new kind of world where everyone belongs.</p>
+    </section>
+
+    <section>
+      <h2 class="section-title">What You Can Do</h2>
+      <p>We believe in a digital future where identity is yours, creativity is currency and your community is global.</p>
+      <ul class="features">
+        <li>🛒 Shop immersive NFT experiences</li>
+        <li>🎭 Customise your avatar and identity</li>
+        <li>🎉 Join events, exhibitions & social hubs</li>
+        <li>🗳️ Engage in community governance</li>
       </ul>
     </section>
 
-    <section id="avatar-container" class="fade-in">
-      <h2 style="text-align:center; color:#fbb600;">Meet Your Avatar</h2>
-      <iframe
-        src="https://readyplayer.me/avatar?frameApi"
-        title="Ready Player Me Avatar"
-        allow="autoplay; fullscreen; vr"
-      ></iframe>
+    <section>
+      <h2 class="section-title">Roadmap</h2>
+      <div class="roadmap">
+        <span>🌱 Genesis – Concept launched, community forming (Q2 2025)</span>
+        <span>🧪 Prototype &amp; MVP – Experience preview &amp; first citizen trials (Q3–Q4 2025)</span>
+        <span>🌍 Phase 1 Nationhood – Full realm with shopping, avatars, social layer (Early 2026)</span>
+        <span>🛠️ Phase 2 Expansion – DAO governance, economic layer, wider onboarding (Mid 2026)</span>
+        <span>🚀 Phase 3 Open Universe – Integration with wider metaverses and institutions (2027+)</span>
+      </div>
     </section>
 
-    <section class="fade-in">
-      <h2>Next Steps</h2>
-      <p>
-        The journey begins with a prototype platform demonstrating core features and identity systems.<br />
-        We will seek academic validation, investor interest, and community engagement.<br />
-        Together, we will build a new paradigm of digital sovereignty.
-      </p>
+    <section class="cta">
+      <h2 class="section-title">Join the Movement</h2>
+      <p>Become a founding citizen. Shape the new world!</p>
+      <input type="email" placeholder="Enter your email" />
+      <button>Sign Up</button>
+      <div class="social-icons">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Font_Awesome_5_brands_discord.svg" alt="Discord" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" />
+        <img src="https://upload.wikimedia.org/wikipedia/en/9/9f/TikTok_logo.svg" alt="TikTok" />
+      </div>
     </section>
-  </main>
 
-  <footer>
-    &copy; 2025 Rickymaru. All rights reserved.
-  </footer>
-
-  <audio id="ambient-audio" loop autoplay muted>
-    <source src="https://cdn.pixabay.com/download/audio/2022/02/17/audio_865f0bf62e.mp3?filename=ambient-digital-hum-14572.mp3" type="audio/mpeg" />
-    <!-- fallback -->
-  </audio>
+    <footer>
+      &copy; 2025 Rickymaru – All rights reserved.
+    </footer>
+  </div>
 
   <script>
-    // Fade in on scroll
-    function onScrollAnimations() {
-      const fadeEls = document.querySelectorAll('section.fade-in');
-      fadeEls.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if(rect.top < window.innerHeight * 0.85) {
-          el.classList.add('visible');
+    // Cursor trail with smaller dots
+    document.addEventListener('mousemove', e => {
+      const dot = document.createElement('div');
+      dot.className = 'cursor-trail';
+      dot.style.left = `${e.pageX}px`;
+      dot.style.top = `${e.pageY}px`;
+      document.body.appendChild(dot);
+      setTimeout(() => dot.remove(), 800);
+    });
+
+    // Reveal sections on scroll
+    const sections = document.querySelectorAll('section');
+    const revealOnScroll = () => {
+      const scrollY = window.scrollY + window.innerHeight * 0.75;
+      sections.forEach(section => {
+        if (scrollY > section.offsetTop) {
+          section.classList.add('visible');
         }
       });
-    }
-    window.addEventListener('scroll', onScrollAnimations);
-    window.addEventListener('load', onScrollAnimations);
-
-    // Ambient sound volume fade in after 2 seconds (for subtlety)
-    const ambientAudio = document.getElementById('ambient-audio');
-    ambientAudio.volume = 0;
-    ambientAudio.muted = false;
-    setTimeout(() => {
-      let vol = 0;
-      const fadeInterval = setInterval(() => {
-        if (vol < 0.12) {
-          vol += 0.01;
-          ambientAudio.volume = vol;
-        } else {
-          clearInterval(fadeInterval);
-        }
-      }, 200);
-    }, 2000);
-
-    // PARTICLES BACKGROUND
-    (() => {
-      const canvas = document.getElementById('background-canvas');
-      const ctx = canvas.getContext('2d');
-      let width, height;
-
-      let particles = [];
-      const particleCount = 140;
-
-      function randomRange(min, max) {
-        return Math.random() * (max - min) + min;
-      }
-
-      function Particle() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.size = randomRange(1.1, 2.8);
-        this.speedX = randomRange(-0.4, 0.4);
-        this.speedY = randomRange(-0.4, 0.4);
-        this.opacity = randomRange(0.2, 0.75);
-        this.shadowBlur = randomRange(4, 9);
-      }
-
-      Particle.prototype.update = function () {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        if(this.x < 0 || this.x > width) this.speedX = -this.speedX;
-        if(this.y < 0 || this.y > height) this.speedY = -this.speedY;
-      };
-
-      Particle.prototype.draw = function () {
-        ctx.beginPath();
-        ctx.fillStyle = `rgba(251, 182, 0, ${this.opacity})`;
-        ctx.shadowColor = '#fbb600cc';
-        ctx.shadowBlur = this.shadowBlur;
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      };
-
-      function init() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-        particles = [];
-        for(let i=0; i < particleCount; i++) {
-          particles.push(new Particle());
-        }
-      }
-
-      function animate() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach(p => {
-          p.update();
-          p.draw();
-        });
-        requestAnimationFrame(animate);
-      }
-
-      window.addEventListener('resize', init);
-
-      init();
-      animate();
-    })();
+    };
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
   </script>
-
 </body>
 </html>
