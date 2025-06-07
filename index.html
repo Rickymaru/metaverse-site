@@ -17,15 +17,30 @@
             font-family: 'Montserrat', sans-serif;
             background: #000;
             color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Background Image Styles */
+        #background {
+            position: fixed;
+            top: -150%;
+            left: -50%;
+            width: 200%;
+            height: 400%;
+            background: url('3d-hyperspace-background-with-warp-tunnel-effect.jpg') no-repeat center center;
+            background-size: cover;
+            z-index: -1;
+            will-change: transform;
         }
 
         /* Header Styles */
         #header {
             position: fixed;
             top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
+            left: 20px;
+            z-index: 10;
+            opacity: 1;
+            transition: opacity 0.5s ease;
         }
 
         #main-title {
@@ -62,6 +77,13 @@
 
         /* Content Styles */
         .content {
+            position: relative;
+            z-index: 1;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .content > div {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -69,17 +91,11 @@
             align-items: center;
             padding: 50px 20px;
         }
-
-        /* Section Styles */
-        .section {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
+    <div id="background"></div>
+
     <header id="header">
         <h1 id="main-title">rickymaru.metaverse</h1>
     </header>
@@ -89,20 +105,21 @@
     </div>
 
     <div class="content">
-        <section class="section">
+        <!-- Your content sections here -->
+        <div>
             <h2>Welcome to Rickymaru.Metaverse</h2>
             <p>This is a futuristic metaverse experience.</p>
-        </section>
+        </div>
 
-        <section class="section">
+        <div>
             <h2>Features</h2>
             <p>Explore our metaverse and discover its features.</p>
-        </section>
+        </div>
 
-        <section class="section">
+        <div>
             <h2>Roadmap</h2>
             <p>Learn about our plans and milestones.</p>
-        </section>
+        </div>
     </div>
 
     <script>
