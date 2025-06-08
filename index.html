@@ -11,6 +11,24 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@400;600&display=swap" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
+    /* Custom font for title */
+    @font-face {
+      font-family: 'RExpanded';
+      src: url('r expanded.png');
+      font-display: block;
+    }
+
+    /* Base styles */
+    :root {
+      --accent-color: #fbb600;
+      --accent-gradient: linear-gradient(45deg, #fbb600, #ffdd55);
+      --transition-speed: 0.3s;
+      --content-spacing: 2rem;
+      --section-height: 100vh;
+      --text-color: #fff;
+      --bg-color: #000;
+    }
+
     /* Reset */
     * {
       margin: 0;
@@ -40,7 +58,7 @@
       background: #000;
       overflow: hidden;
       color: #fff;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       line-height: 1.6;
       /* Force smooth scroll */
       -webkit-font-smoothing: antialiased;
@@ -89,19 +107,15 @@
     }
     .hero h1 {
       font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
       font-weight: 600;
-      font-size: clamp(1.5rem, 8vw, 4rem);
+      margin-bottom: 1rem;
       color: #fbb600;
-      padding: 0 1rem;
+      text-shadow: 0 0 15px rgba(251, 182, 0, 0.4);
       white-space: nowrap;
-      overflow: visible;
-      text-overflow: ellipsis;
-      max-width: 100vw;
-      animation: glowText 3s ease-in-out infinite alternate;
-      user-select: none;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
       letter-spacing: -0.02em;
+      line-height: 1.1;
+      animation: pulseGlow 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
     .hero p {
       font-size: clamp(1rem, 4vw, 1.2rem);
@@ -115,14 +129,25 @@
       user-select: none;
     }
 
-    @keyframes glowText {
-      from { 
-        text-shadow: 0 0 5px rgba(251, 182, 0, 0.5);
+    @keyframes pulseGlow {
+      0%, 100% {
+        text-shadow: 0 0 15px rgba(251, 182, 0, 0.4);
       }
-      to { 
-        text-shadow: 
-          0 0 10px rgba(251, 182, 0, 0.6),
-          0 0 20px rgba(251, 182, 0, 0.3);
+      20% {
+        text-shadow: 0 0 15px rgba(251, 182, 0, 0.4);
+      }
+      30% {
+        text-shadow: 0 0 20px rgba(251, 182, 0, 0.5);
+      }
+      50% {
+        text-shadow: 0 0 25px rgba(251, 182, 0, 0.6),
+                     0 0 35px rgba(251, 182, 0, 0.3);
+      }
+      70% {
+        text-shadow: 0 0 20px rgba(251, 182, 0, 0.5);
+      }
+      80% {
+        text-shadow: 0 0 15px rgba(251, 182, 0, 0.4);
       }
     }
 
@@ -561,6 +586,78 @@
         display: none;
       }
     }
+
+    /* R menu button - no glow, just the PNG */
+    .arc-menu-trigger {
+      position: fixed;
+      left: 2rem;
+      top: 50%;
+      transform: translateY(-50%) scale(0.8);
+      width: 64px;
+      height: 64px;
+      background: url('r expanded.png') no-repeat center center / contain;
+      border: none;
+      border-radius: 50%;
+      background-color: transparent;
+      cursor: pointer;
+      z-index: 1001;
+      opacity: 0;
+      transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+      box-shadow: none;
+    }
+    .arc-menu-trigger.visible {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+    /* Arc menu container */
+    .arc-menu {
+      position: fixed;
+      left: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      z-index: 1000;
+    }
+    .arc-menu.open {
+      pointer-events: auto;
+    }
+    /* Arc menu items */
+    .arc-menu-item {
+      position: absolute;
+      left: 32px;
+      top: 32px;
+      transform: scale(0);
+      opacity: 0;
+      background: none;
+      color: #fff;
+      padding: 0;
+      border-radius: 0;
+      font-size: 1.4rem;
+      font-weight: 700;
+      white-space: nowrap;
+      box-shadow: none;
+      border: none;
+      transition: transform 0.5s cubic-bezier(.4,0,.2,1), opacity 0.5s cubic-bezier(.4,0,.2,1);
+      cursor: pointer;
+      user-select: none;
+      pointer-events: auto;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      letter-spacing: 0.08em;
+      text-align: left;
+      transform-origin: left center;
+    }
+    .arc-menu.open .arc-menu-item {
+      opacity: 1;
+      /* transform will be set dynamically */
+    }
+    /* Arc positions for 6 items, fanning out to the right in a semi-circle */
+    /* 0deg is directly right, 60deg is up-right, -60deg is down-right */
+    .arc-menu.open .arc-menu-item:nth-child(1) { transition-delay: 0.05s; }
+    .arc-menu.open .arc-menu-item:nth-child(2) { transition-delay: 0.10s; }
+    .arc-menu.open .arc-menu-item:nth-child(3) { transition-delay: 0.15s; }
+    .arc-menu.open .arc-menu-item:nth-child(4) { transition-delay: 0.20s; }
+    .arc-menu.open .arc-menu-item:nth-child(5) { transition-delay: 0.25s; }
+    .arc-menu.open .arc-menu-item:nth-child(6) { transition-delay: 0.30s; }
   </style>
 </head>
 <body>
@@ -568,6 +665,15 @@
   <div class="custom-cursor"></div>
 
   <canvas id="particle-canvas"></canvas>
+
+  <button class="arc-menu-trigger" aria-label="Open menu"></button>
+  <nav class="arc-menu">
+    <div class="arc-menu-item">About</div>
+    <div class="arc-menu-item">Contact</div>
+    <div class="arc-menu-item">Privacy</div>
+    <div class="arc-menu-item">Cookies</div>
+    <div class="arc-menu-item">Terms</div>
+  </nav>
 
   <div class="container">
     <header class="hero" id="hero">
@@ -870,6 +976,76 @@
         targetY = e.clientY - 10;
       });
     }
+
+    // Show the R button after scrolling past hero
+    document.addEventListener('DOMContentLoaded', () => {
+      const trigger = document.querySelector('.arc-menu-trigger');
+      const arcMenu = document.querySelector('.arc-menu');
+      const items = document.querySelectorAll('.arc-menu-item');
+      // Show trigger after hero
+      const hero = document.querySelector('header.hero');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            trigger.classList.add('visible');
+          } else {
+            trigger.classList.remove('visible');
+            arcMenu.classList.remove('open');
+          }
+        });
+      }, { threshold: 0.1 });
+      if (hero) observer.observe(hero);
+      // Arc menu open/close
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        arcMenu.classList.toggle('open');
+        if (arcMenu.classList.contains('open')) {
+          // True perspective: all items radiate from the center of the R
+          const radius = 70;
+          const total = items.length;
+          const arcStart = -70; // degrees (bottom)
+          const arcEnd = 70;   // degrees (top)
+          // Get the R's center relative to the viewport, with fine-tuning offsets
+          const rRect = trigger.getBoundingClientRect();
+          const menuRect = arcMenu.getBoundingClientRect();
+          const centerX = rRect.left + rRect.width / 2 - menuRect.left + 4; // nudge right
+          const centerY = rRect.top + rRect.height / 2 - menuRect.top - 8; // nudge up more
+          items.forEach((item, i) => {
+            const angleDeg = arcStart + (arcEnd - arcStart) * (i / (total - 1));
+            // Set the item at the vanishing point, rotate, then translate outward
+            item.style.left = centerX + 'px';
+            item.style.top = centerY + 'px';
+            item.style.transform = `scale(1) rotate(${angleDeg}deg) translateX(${radius}px)`;
+          });
+        } else {
+          // Reset transforms when closing
+          items.forEach(item => {
+            item.style.transform = 'scale(0)';
+          });
+        }
+      });
+      // Close menu on click outside
+      document.addEventListener('click', (e) => {
+        if (!arcMenu.contains(e.target) && !trigger.contains(e.target)) {
+          arcMenu.classList.remove('open');
+          // Reset transforms
+          items.forEach(item => {
+            item.style.transform = 'scale(0)';
+          });
+        }
+      });
+      // Optional: handle menu item clicks
+      items.forEach(item => {
+        item.addEventListener('click', () => {
+          arcMenu.classList.remove('open');
+          // Reset transforms
+          items.forEach(item => {
+            item.style.transform = 'scale(0)';
+          });
+          // Add navigation logic here if needed
+        });
+      });
+    });
   </script>
 </body>
 </html>
