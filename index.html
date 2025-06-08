@@ -269,16 +269,20 @@
 
     ul.features {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
       list-style: none;
       gap: 1.25rem;
-      padding: 0.75rem;
-      margin-top: 30px;
+      padding: 0.75rem 0;
+      margin: 30px auto 0 auto;
+      max-width: 700px;
+      width: 100%;
     }
     ul.features li {
-      flex: 1 1 100%;
-      background: rgba(255 255 255 / 0.05);
+      width: 100%;
+      max-width: 700px;
+      background: rgba(255,255,255,0.05);
       padding: 1.5rem;
       border-radius: 15px;
       backdrop-filter: blur(6px);
@@ -288,6 +292,38 @@
       user-select: none;
       cursor: default;
       touch-action: manipulation;
+      border: 1px solid rgba(251,182,0,0.08);
+      transition: box-shadow 0.3s;
+      margin: 0 auto;
+    }
+    .r-logo-absolute {
+      position: absolute;
+      left: 2rem;
+      top: calc(50% + 1.5rem);
+      width: 64px;
+      height: 64px;
+      background: url('r expanded.png') no-repeat center center / contain;
+      z-index: 10;
+      pointer-events: none;
+    }
+    @media (max-width: 900px) {
+      ul.features li {
+        max-width: 95vw;
+      }
+      ul.features {
+        max-width: 95vw;
+      }
+      .r-logo-absolute {
+        left: 1rem;
+        width: 48px;
+        height: 48px;
+      }
+    }
+    @media (max-width: 600px) {
+      ul.features li {
+        padding: 1rem;
+        font-size: 1rem;
+      }
     }
 
     /* Roadmap style */
@@ -641,10 +677,16 @@
       cursor: pointer;
       user-select: none;
       pointer-events: auto;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      text-shadow: 0 2px 12px #fbb600, 0 0 8px #fff2;
       letter-spacing: 0.08em;
       text-align: left;
       transform-origin: left center;
+      background: none;
+      -webkit-background-clip: initial;
+      -webkit-text-fill-color: initial;
+      background-clip: initial;
+      text-fill-color: initial;
+      animation: none;
     }
     .arc-menu.open .arc-menu-item {
       opacity: 1;
@@ -658,6 +700,14 @@
     .arc-menu.open .arc-menu-item:nth-child(4) { transition-delay: 0.20s; }
     .arc-menu.open .arc-menu-item:nth-child(5) { transition-delay: 0.25s; }
     .arc-menu.open .arc-menu-item:nth-child(6) { transition-delay: 0.30s; }
+    @keyframes shineText {
+      0% {
+        background-position: -100% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -713,7 +763,7 @@
         <span>🌱 Genesis – Concept launched, community forming (Q2 2025)</span>
         <span>🧪 Prototype &amp; MVP – Experience preview &amp; first citizen trials (Q3–Q4 2025)</span>
         <span>🌍 Phase 1 Nationhood – Full realm with shopping, avatars, social layer (Early 2026)</span>
-        <span>🛠️ Phase 2 Expansion – DAO governance, economic layer, wider onboarding (Mid 2026)</span>
+        <span>️ Phase 2 Expansion – DAO governance, economic layer, wider onboarding (Mid 2026)</span>
         <span>🚀 Phase 3 Open Universe – Integration with wider metaverses and institutions (2027+)</span>
       </div>
     </section>
@@ -829,6 +879,8 @@
     class BackgroundParticle {
       constructor() {
         this.reset();
+        this.glowPhase = Math.random() * Math.PI * 2;
+        this.glowSpeed = 0.2 + Math.random() * 0.1; // very slow
       }
 
       reset() {
@@ -843,17 +895,23 @@
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-
+        this.glowPhase += this.glowSpeed * 0.01; // very slow
         if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
           this.reset();
         }
       }
 
       draw() {
+        // Subtle glow effect
+        const glow = 0.15 + 0.10 * Math.sin(this.glowPhase);
+        ctx.save();
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.shadowColor = `rgba(251, 182, 0, ${glow})`;
+        ctx.shadowBlur = 12;
         ctx.fillStyle = `rgba(251, 182, 0, ${this.opacity})`;
         ctx.fill();
+        ctx.restore();
       }
     }
 
@@ -1008,8 +1066,8 @@
           // Get the R's center relative to the viewport, with fine-tuning offsets
           const rRect = trigger.getBoundingClientRect();
           const menuRect = arcMenu.getBoundingClientRect();
-          const centerX = rRect.left + rRect.width / 2 - menuRect.left + 4; // nudge right
-          const centerY = rRect.top + rRect.height / 2 - menuRect.top - 8; // nudge up more
+          const centerX = rRect.left + rRect.width / 2 - menuRect.left + 6; // nudge right more
+          const centerY = rRect.top + rRect.height / 2 - menuRect.top - 10; // nudge up more
           items.forEach((item, i) => {
             const angleDeg = arcStart + (arcEnd - arcStart) * (i / (total - 1));
             // Set the item at the vanishing point, rotate, then translate outward
@@ -1028,7 +1086,23 @@
       document.addEventListener('click', (e) => {
         if (!arcMenu.contains(e.target) && !trigger.contains(e.target)) {
           arcMenu.classList.remove('open');
-          // Reset transforms
+          items.forEach(item => {
+            item.style.transform = 'scale(0)';
+          });
+        }
+      });
+      // Auto-close menu on wheel (scroll) for fixed menus
+      window.addEventListener('wheel', () => {
+        arcMenu.classList.remove('open');
+        items.forEach(item => {
+          item.style.transform = 'scale(0)';
+        });
+      }, { passive: true });
+      // Auto-close menu on mouse leave from the whole arc-menu area
+      arcMenu.addEventListener('mouseleave', (e) => {
+        // Only close if the mouse is truly leaving the arc-menu, not just moving between items
+        if (!arcMenu.contains(e.relatedTarget)) {
+          arcMenu.classList.remove('open');
           items.forEach(item => {
             item.style.transform = 'scale(0)';
           });
@@ -1038,7 +1112,6 @@
       items.forEach(item => {
         item.addEventListener('click', () => {
           arcMenu.classList.remove('open');
-          // Reset transforms
           items.forEach(item => {
             item.style.transform = 'scale(0)';
           });
