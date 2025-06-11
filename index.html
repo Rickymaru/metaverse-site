@@ -708,6 +708,21 @@
         background-position: 200% 0;
       }
     }
+
+    @media (max-width: 1024px) {
+      .arc-menu-trigger {
+        top: 2rem;
+        left: 0.5rem;
+        transform: none;
+        width: 56px;
+        height: 56px;
+      }
+      .arc-menu {
+        left: 0.5rem;
+        top: 2rem;
+        transform: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1058,27 +1073,52 @@
         e.stopPropagation();
         arcMenu.classList.toggle('open');
         if (arcMenu.classList.contains('open')) {
-          // True perspective: all items radiate from the center of the R
-          const radius = 70;
-          const total = items.length;
-          const arcStart = -70; // degrees (bottom)
-          const arcEnd = 70;   // degrees (top)
-          // Get the R's center relative to the viewport, with fine-tuning offsets
+          let radius, total, arcStart, arcEnd, centerX, centerY;
+          const isMobile = window.innerWidth <= 1024;
           const rRect = trigger.getBoundingClientRect();
           const menuRect = arcMenu.getBoundingClientRect();
-          const centerX = rRect.left + rRect.width / 2 - menuRect.left + 6; // nudge right more
-          const centerY = rRect.top + rRect.height / 2 - menuRect.top - 10; // nudge up more
+          if (isMobile) {
+            // Top left corner, 360° (right) to 450° (up right) - quarter circle
+            radius = 70;
+            total = items.length;
+            arcStart = 360;   // right
+            arcEnd = 450;     // up right
+            centerX = rRect.left + rRect.width / 2 - menuRect.left;
+            centerY = rRect.top + rRect.height / 2 - menuRect.top;
+          } else {
+            // Desktop: left center, 140-degree arc
+            radius = 70;
+            total = items.length;
+            arcStart = -70; // degrees (bottom)
+            arcEnd = 70;   // degrees (top)
+            centerX = rRect.left + rRect.width / 2 - menuRect.left + 6; // nudge right more
+            centerY = rRect.top + rRect.height / 2 - menuRect.top - 10; // nudge up more
+          }
           items.forEach((item, i) => {
             const angleDeg = arcStart + (arcEnd - arcStart) * (i / (total - 1));
-            // Set the item at the vanishing point, rotate, then translate outward
             item.style.left = centerX + 'px';
             item.style.top = centerY + 'px';
             item.style.transform = `scale(1) rotate(${angleDeg}deg) translateX(${radius}px)`;
+            // Counter-rotate the text so it's upright only on desktop
+            const textSpan = item.querySelector('span');
+            if (textSpan) {
+              textSpan.style.display = 'inline-block';
+              if (isMobile) {
+                textSpan.style.transform = 'none';
+              } else {
+                textSpan.style.transform = `rotate(${-angleDeg}deg)`;
+              }
+            }
           });
         } else {
           // Reset transforms when closing
           items.forEach(item => {
             item.style.transform = 'scale(0)';
+            // Reset counter-rotation
+            const textSpan = item.querySelector('span');
+            if (textSpan) {
+              textSpan.style.transform = '';
+            }
           });
         }
       });
