@@ -9,6 +9,12 @@ let scene, camera, renderer;
 enterBtn.addEventListener('click', () => {
   enterScreen.style.display = 'none';
   canvas.style.display = 'block';
+  if (params.get('enter') === 'true') {
+  enterScreen.style.display = 'none';
+  canvas.style.display = 'block';
+  document.documentElement.requestFullscreen?.();
+  init();
+  animate();
 
   document.documentElement.requestFullscreen?.();
 
