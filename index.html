@@ -121,12 +121,100 @@
       font-size: clamp(1rem, 4vw, 1.2rem);
       padding: 0 1rem;
       max-width: 700px;
-      animation: fadeIn 2s ease-in forwards;
+      margin-top: 2rem;
+      animation: fadeIn 1s ease-in forwards;
       opacity: 0;
       transform: translateY(15px);
       animation-fill-mode: forwards;
-      animation-delay: 0.5s;
+      animation-delay: 0.2s;
       user-select: none;
+    }
+    /* Realistic Vortex Portal - Canvas Based */
+    .portal-container {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin: 2rem auto;
+      cursor: pointer;
+      touch-action: manipulation;
+      animation: fadeIn 1s ease-in forwards, pulseZoom 4s ease-in-out infinite;
+      opacity: 0;
+      transform: translate3d(0, 15px, 0);
+      animation-fill-mode: forwards;
+      animation-delay: 0.3s, 1.3s;
+      will-change: transform;
+      perspective: 600px;
+      transform-style: preserve-3d;
+      transition: transform 0.08s ease-out;
+    }
+    .portal-container:hover {
+      animation-play-state: paused;
+    }
+    .portal-container canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+    .portal-text {
+      position: absolute;
+      width: 100%;
+      bottom: -45px;
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 600;
+      color: #fbb600;
+      text-shadow: 0 0 15px rgba(251, 182, 0, 0.8), 0 0 30px rgba(251, 182, 0, 0.6);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      transition: all 0.3s ease;
+    }
+    .portal-container:hover .portal-text {
+      color: #ffdd55;
+      text-shadow: 0 0 20px rgba(251, 182, 0, 0.9), 0 0 40px rgba(251, 182, 0, 0.7);
+    }
+    /* Pull-in effect - smooth zoom from 100% to 0% (center) with one 360° rotation */
+    @keyframes pullIntoVortex {
+      0% {
+        transform: scale(1) rotate(0deg);
+      }
+      100% {
+        transform: scale(40) rotate(360deg);
+      }
+    }
+    
+    .portal-container.pull-in {
+      z-index: 10000;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: scale(1) !important;
+      transition: none !important;
+    }
+    
+    body.pull-in {
+      animation: pullIntoVortex 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      overflow: hidden;
+    }
+    
+    /* Bottom Portal Section */
+    .portal-section-bottom {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem 2rem;
+      min-height: 50vh;
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .portal-container {
+        width: 240px;
+        height: 240px;
+        margin: 1.5rem auto;
+      }
+      .portal-text {
+        font-size: clamp(0.9rem, 2vw, 1rem);
+        bottom: -40px;
+      }
     }
 
     @keyframes pulseGlow {
@@ -152,7 +240,23 @@
     }
 
     @keyframes fadeIn {
-      to { opacity: 1; transform: translateY(0); }
+      to { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+    
+    @keyframes pulseZoom {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(0, 0, 0) scale(1.03); }
+    }
+    
+    @keyframes pullIn {
+      0% { 
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0px);
+      }
+      100% { 
+        transform: translate3d(0, 0, 0) scale(3.5);
+        filter: blur(8px);
+      }
     }
 
     /* Section styling with subtle fade-in on scroll */
@@ -548,8 +652,9 @@
         pointer-events: none;
         z-index: 9999;
         mix-blend-mode: difference;
-        transition: transform 0.1s ease;
         will-change: transform;
+        transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
       }
       .custom-cursor::before {
         content: '';
@@ -729,6 +834,9 @@
   <!-- Add custom cursor element -->
   <div class="custom-cursor"></div>
 
+  <!-- Portal transition overlay -->
+  <div class="portal-overlay" id="portal-overlay"></div>
+
   <canvas id="particle-canvas"></canvas>
 
   <button class="arc-menu-trigger" aria-label="Open menu"></button>
@@ -743,6 +851,10 @@
   <div class="container">
     <header class="hero" id="hero">
       <h1>rickymaru.metaverse</h1>
+      <div class="portal-container" id="portal-container">
+        <canvas id="vortex-portal"></canvas>
+        <div class="portal-text">Enter the World</div>
+      </div>
       <p>A borderless society for explorers, creators, and dreamers – built on trust, imagination and digital freedom.</p>
     </header>
 
@@ -775,11 +887,11 @@
     <section>
       <h2 class="section-title">Roadmap</h2>
       <div class="roadmap">
-        <span>🌱 Genesis – Concept launched, community forming (Q2 2025)</span>
-        <span>🧪 Prototype &amp; MVP – Experience preview &amp; first citizen trials (Q3–Q4 2025)</span>
-        <span>🌍 Phase 1 Nationhood – Full realm with shopping, avatars, social layer (Early 2026)</span>
-        <span>️ Phase 2 Expansion – DAO governance, economic layer, wider onboarding (Mid 2026)</span>
-        <span>🚀 Phase 3 Open Universe – Integration with wider metaverses and institutions (2027+)</span>
+        <span>🌱 Genesis – Concept launched, community forming (Q4 2025)</span>
+        <span>🧪 Prototype &amp; MVP – Experience preview &amp; first citizen trials (Q3 2026)</span>
+        <span>🌍 Phase 1 Nationhood – Full realm with shopping, avatars, social layer (Late 2026)</span>
+        <span>️ Phase 2 Expansion – DAO governance, economic layer, wider onboarding (Mid-Late 2027)</span>
+        <span>🚀 Phase 3 Open Universe – Integration with wider metaverses and institutions (2028+)</span>
       </div>
     </section>
 
@@ -871,6 +983,14 @@
         </div>
       </div>
     </section>
+
+    <!-- Second Portal at Bottom -->
+    <div class="portal-section-bottom">
+      <div class="portal-container" id="portal-container-bottom">
+        <canvas id="vortex-portal-bottom"></canvas>
+        <div class="portal-text">Enter the World</div>
+      </div>
+    </div>
 
     <footer>
       &copy; 2025 Rickymaru – All rights reserved.
@@ -1017,6 +1137,1106 @@
           }
         });
       });
+
+      // Realistic Vortex Portal - Particle System
+      (() => {
+        const canvas = document.getElementById('vortex-portal');
+        const portalContainer = document.getElementById('portal-container');
+        
+        if (!canvas || !portalContainer) return;
+        
+        const ctx = canvas.getContext('2d');
+        let animationId = null;
+        let startTime = null;
+        let rotation = 0;
+        
+        // Resize canvas
+        function resizeCanvas() {
+          const rect = portalContainer.getBoundingClientRect();
+          canvas.width = rect.width;
+          canvas.height = rect.height;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Particle system - realistic vortex with 2 main arms
+        const particles = [];
+        const numArms = 2; // Two main arms like reference
+        let activeParticleCount = 0;
+        let globalCreationCounter = 0; // Track actual creation order
+        let firstParticleDisappeared = false; // Track when first particle disappears
+        const particlesPerFrame = 5; // Moderate generation rate for 2800 particles
+        const centerX = () => canvas.width / 2;
+        const centerY = () => canvas.height / 2;
+        
+        // Calculate max particles needed for continuous loop
+        // Slightly increased for denser effect
+        const calculatedMaxParticles = 2800; // Slightly more particles for denser vortex
+        
+        // Hide text initially
+        const portalText = portalContainer.querySelector('.portal-text');
+        if (portalText) {
+          portalText.style.opacity = '0';
+          portalText.style.transition = 'opacity 0.5s ease-in';
+        }
+        
+        // Particle class - realistic small glowing dots
+        class Particle {
+          constructor(armIndex, particleIndex, totalParticles, creationOrder, creationTime) {
+            this.armIndex = armIndex;
+            this.particleIndex = particleIndex;
+            this.totalParticles = totalParticles;
+            this.creationOrder = creationOrder; // Actual order of creation
+            this.creationTime = creationTime || performance.now(); // Time when particle was created
+            // Random fade-in: particles fade in at different rates when entering field
+            this.fadeInDuration = 0.3 + Math.random() * 0.9; // More random: 0.3-1.2 seconds for varied appearance
+            this.fadeInDelay = Math.random() * 0.3; // Random delay before fade-in starts (0-0.3s)
+            this.reset(true);
+          }
+          
+          reset(isInitial = false) {
+            const armAngle = (this.armIndex / numArms) * Math.PI * 2;
+            const baseRadius = 210; // Slightly larger field for more tunnel-like effect
+            
+            // Spiral offset - creates clearly visible spiral arms
+            // Use creation order to position particles along spiral with tighter spacing
+            const baseSpiralOffset = this.creationOrder * 0.25; // Increased spacing for more distinct spiral arms
+            const randomAngleVariation = (Math.random() - 0.5) * 0.05; // Minimal variation to maintain clear spiral
+            const spiralOffset = baseSpiralOffset + randomAngleVariation;
+            
+            if (isInitial) {
+              // For initial particles: start at outer edge with organic shape but maintain spiral
+              const radiusVariation = (Math.random() - 0.5) * 35; // Organic edge variation
+              const angleVariation = (Math.random() - 0.5) * 0.2; // Reduced angle variation to maintain spiral
+              this.radius = baseRadius + radiusVariation; // Irregular outer edge
+              this.angle = armAngle + spiralOffset + angleVariation;
+            } else {
+              // Regenerated particles: always start at outer edge with minimal variation to maintain spiral
+              const radiusVariation = (Math.random() - 0.5) * 35; // Organic edge variation
+              const angleVariation = (Math.random() - 0.5) * 0.15; // Reduced angle variation to maintain spiral
+              this.radius = baseRadius + radiusVariation;
+              this.angle = armAngle + this.initialSpiralOffset + (rotation % (Math.PI * 2)) + angleVariation;
+            }
+            
+            this.baseRadius = baseRadius;
+            this.initialSpiralOffset = spiralOffset; // Store for maintaining spiral shape
+            
+            // Trail for flowing gas effect - highly randomized per particle (subtle, not sperm-like)
+            this.trail = []; // Store previous positions for trail effect
+            this.hasTrail = Math.random() > 0.65; // 35% of particles can have trails (more random)
+            this.maxTrailLength = this.hasTrail ? (1 + Math.floor(Math.random() * 3)) : 0; // Random trail length: 1-3 points
+            // Random trail fade in/out timing to prevent uniform appearance
+            this.trailActive = false; // Trail starts inactive
+            this.trailFadeInTime = Math.random() * 2; // Random time before trail fades in (0-2s)
+            this.trailFadeOutTime = this.trailFadeInTime + 0.5 + Math.random() * 1.5; // Random time before trail fades out
+            this.trailCycleDuration = 2 + Math.random() * 3; // Random cycle duration (2-5s)
+            
+            // Signature color palette: #fbb600 (44° orange-gold) and neighboring warm tones
+            // Use angle to create color gradient that follows the spiral pattern
+            const normalizedAngle = ((this.angle % (Math.PI * 2)) + (Math.PI * 2)) % (Math.PI * 2); // Normalize to 0-2π
+            const angleColorProgress = normalizedAngle / (Math.PI * 2); // 0 to 1 based on angle
+            
+            // Signature color #fbb600 is ~44° (orange-gold)
+            // Neighboring colors: red-orange (25°), orange (35°), signature (44°), yellow-orange (50°), yellow (55°)
+            // Create smooth gradient through these warm tones
+            const signatureHue = 44; // #fbb600 signature color
+            const hueRange = 30; // Range of neighboring colors (±15° from signature)
+            const baseHue = signatureHue + (angleColorProgress - 0.5) * hueRange; // Vary ±15° around signature
+            this.hue = (baseHue + (Math.random() - 0.5) * 6) % 360; // Add slight random variation, wrap around
+            this.opacity = 0.65 + Math.random() * 0.35; // Increased opacity by ~15% for better visibility (0.65-1.0)
+            
+            // Small varied sizes for realistic feel - more variation
+            this.size = 0.6 + Math.random() * 3.0; // More size variation
+            // Base rotation speed: will be adjusted based on distance from center
+            // Particles near center rotate faster, outer ones slower (realistic spiral motion)
+            this.baseSpeed = 0.007 + Math.random() * 0.003; // Base speed for clear visibility
+            this.speed = this.baseSpeed; // Initial speed, will be adjusted in update()
+            this.pullSpeed = 0.97 + Math.random() * 0.01; // Faster pull to match rotation speed
+          }
+          
+          update(time) {
+            // Store previous position for trail (before updating)
+            const prevPos = this.getPosition();
+            
+            // Realistic spiral motion: particles near center rotate faster, outer ones slower
+            // Speed is inversely proportional to radius (like real spiral galaxies)
+            // Moderate speed difference - visible but not too fast
+            const normalizedRadius = Math.max(this.radius / this.baseRadius, 0.1); // Normalize, prevent division by zero
+            const speedMultiplier = 0.5 + (1 / normalizedRadius) * 0.8; // Moderate: 1x at edge, ~8-9x at center
+            const adjustedSpeed = this.baseSpeed * speedMultiplier;
+            
+            // Clockwise rotation (positive) - speed varies based on distance from center
+            this.angle += adjustedSpeed;
+            
+            // Pull inward - each particle has its own pull speed (set in reset)
+            this.radius *= this.pullSpeed;
+            
+            // Update trail for flowing gas effect - random fade in/out to prevent sperm effect
+            if (this.hasTrail && this.maxTrailLength > 0) {
+              // Calculate particle age for random trail timing
+              const particleAge = (time - this.creationTime) / 1000; // Age in seconds
+              const cycleTime = particleAge % this.trailCycleDuration; // Time within current cycle
+              
+              // Simple random fade in/out: trail appears after fadeInTime, disappears after fadeOutTime
+              const wasActive = this.trailActive;
+              
+              if (cycleTime < this.trailFadeInTime) {
+                // Before fade in - trail inactive
+                this.trailActive = false;
+              } else if (cycleTime < this.trailFadeOutTime) {
+                // Between fade in and fade out - trail active
+                this.trailActive = true;
+              } else {
+                // After fade out - trail inactive
+                this.trailActive = false;
+              }
+              
+              // Only update trail when active
+              if (this.trailActive) {
+                this.trail.push({ x: prevPos.x, y: prevPos.y });
+                
+                // Limit trail length for performance
+                if (this.trail.length > this.maxTrailLength) {
+                  this.trail.shift(); // Remove oldest position
+                }
+              } else if (wasActive) {
+                // Clear trail when it becomes inactive
+                this.trail = [];
+              }
+            }
+            
+            // Reset when very close to center (almost invisible)
+            const resetThreshold = 1.5; // Very close to center - particles disappear when invisible
+            
+            // Force regeneration if particle is too close to center (invisible)
+            if (this.radius < resetThreshold) {
+              // Mark that first particle has disappeared (for initial build-up)
+              if (this.creationOrder === 0 && !firstParticleDisappeared) {
+                firstParticleDisappeared = true;
+              }
+              // Reset creation time for fade-in effect when regenerated
+              this.creationTime = time;
+              this.fadeInDuration = 0.3 + Math.random() * 0.9; // More random: 0.3-1.2 seconds for varied appearance
+              this.fadeInDelay = Math.random() * 0.3; // Random delay before fade-in starts (0-0.3s)
+              this.trail = []; // Clear trail when regenerated
+              // Randomize trail properties for variety - random fade in/out to prevent sperm effect
+              this.hasTrail = Math.random() > 0.65; // 35% of particles can have trails (more random)
+              this.maxTrailLength = this.hasTrail ? (1 + Math.floor(Math.random() * 3)) : 0; // Random trail length: 1-3 points
+              this.trailActive = false; // Trail starts inactive
+              this.trailFadeInTime = Math.random() * 2; // Random time before trail fades in (0-2s)
+              this.trailFadeOutTime = this.trailFadeInTime + 0.5 + Math.random() * 1.5; // Random time before trail fades out
+              this.trailCycleDuration = 2 + Math.random() * 3; // Random cycle duration (2-5s)
+              this.reset(false); // Regenerate at outer edge
+            }
+          }
+          
+          getPosition() {
+            const x = centerX() + Math.cos(this.angle + rotation) * this.radius;
+            const y = centerY() + Math.sin(this.angle + rotation) * this.radius;
+            return { x, y };
+          }
+          
+          draw(currentTime) {
+            const pos = this.getPosition();
+            const distanceFromCenter = Math.min(this.radius / this.baseRadius, 1);
+            
+            // Fade in effect - particles gradually appear when entering field (random timing)
+            const timeSinceCreation = (currentTime - this.creationTime) / 1000; // Convert to seconds
+            let fadeInAlpha = 1.0;
+            
+            // Account for random delay before fade-in starts
+            const timeAfterDelay = Math.max(0, timeSinceCreation - (this.fadeInDelay || 0));
+            
+            if (timeAfterDelay < this.fadeInDuration) {
+              // Gradually fade in from 0 to 1 over fadeInDuration with smooth easing
+              const progress = Math.min(1, timeAfterDelay / this.fadeInDuration);
+              // Smooth ease-in curve for more realistic, natural appearance
+              fadeInAlpha = progress * progress * (3 - 2 * progress); // Smoothstep function for natural fade
+            } else if (timeSinceCreation < (this.fadeInDelay || 0)) {
+              // Still in delay period - completely transparent
+              fadeInAlpha = 0;
+            }
+            
+            // Fade out at outer edges - very aggressive blurry boundary effect to break perfect circle
+            // Account for max radius variation: particles can be up to baseRadius + 17.5px
+            const maxPossibleRadius = this.baseRadius + 17.5; // Maximum radius particles can have
+            const fadeStartRadius = this.baseRadius * 0.5; // Start fading much earlier at 50% of baseRadius
+            const fadeEndRadius = this.baseRadius * 0.7; // Fully transparent by 70% (much earlier)
+            let edgeFade = 1.0;
+            
+            if (this.radius > fadeStartRadius) {
+              // Calculate fade: 1.0 at fadeStartRadius, 0.0 at fadeEndRadius
+              const fadeProgress = (this.radius - fadeStartRadius) / (fadeEndRadius - fadeStartRadius);
+              edgeFade = Math.max(0, 1 - fadeProgress * 1.5); // Faster fade - steeper curve
+            }
+            
+            // Very aggressive fade for any particles beyond fadeEndRadius
+            // This ensures no particles are visible near the edge, completely breaking the circle
+            if (this.radius > fadeEndRadius) {
+              const extraFade = (this.radius - fadeEndRadius) / (maxPossibleRadius - fadeEndRadius);
+              edgeFade *= Math.max(0, 1 - extraFade * 8); // Extremely aggressive fade - particles disappear instantly
+            }
+            
+            // Size adjustment: particles get smaller as they approach center to prevent bunching
+            // Gradual size reduction starting from 20% of journey
+            const sizeReductionStart = this.baseRadius * 0.2; // Start reducing size when radius < 20% of base
+            let depthSizeMultiplier = 1.0; // Default: full size
+            
+            if (this.radius < sizeReductionStart) {
+              // Gradual size reduction as particles approach center
+              const reductionProgress = this.radius / sizeReductionStart; // 0 at center, 1 at reduction start
+              depthSizeMultiplier = 0.3 + reductionProgress * 0.7; // Size range: 0.3x at center to 1.0x at reduction start
+            }
+            
+            const depthAdjustedSize = this.size * depthSizeMultiplier;
+            
+            // Opacity fade: particles FADE as they approach center (not brighter)
+            // Reverse the opacity so particles become more transparent near center
+            const centerFadeStart = this.baseRadius * 0.15; // Start fading when radius < 15% of base
+            let centerFade = 1.0;
+            
+            if (this.radius < centerFadeStart) {
+              // Fade out as particles approach center
+              const fadeProgress = this.radius / centerFadeStart; // 0 at center, 1 at fade start
+              centerFade = 0.2 + fadeProgress * 0.8; // Fade from 20% opacity at center to 100% at fade start
+            }
+            
+            const baseAlpha = this.opacity * centerFade * (0.5 + distanceFromCenter * 0.5);
+            
+            // Soft light illumination: particles near center are brighter (illuminated by center light)
+            const illuminationRadius = 40; // Radius of illumination effect from center light
+            let illuminationMultiplier = 1.0;
+            let brightnessBoost = 0; // Additional lightness for illumination
+            
+            if (this.radius < illuminationRadius) {
+              // Particles within illumination radius get brighter
+              const illuminationDistance = this.radius / illuminationRadius; // 0 at center, 1 at edge of illumination
+              // Brightest at center, gradually dims outward
+              illuminationMultiplier = 1.0 + (1 - illuminationDistance) * 0.6; // 1.0x to 1.6x brightness
+              brightnessBoost = (1 - illuminationDistance) * 15; // Up to 15% brighter at center
+            }
+            
+            // Combine with edge fade and fade-in (preserve fade-in to prevent perfect circle)
+            // Apply illumination to make particles near center brighter
+            const alpha = baseAlpha * edgeFade * fadeInAlpha * illuminationMultiplier;
+            
+            // Don't draw if completely faded
+            if (alpha < 0.01) return;
+            
+            // Draw fading trail for flowing gas effect - random fade in/out to prevent sperm effect
+            if (this.hasTrail && this.trailActive && this.trail.length > 1) {
+              // Calculate smooth fade in/out based on cycle timing
+              const particleAge = (currentTime - this.creationTime) / 1000;
+              const cycleTime = particleAge % this.trailCycleDuration;
+              
+              // Smooth fade in/out transitions
+              let trailVisibility = 1.0;
+              if (cycleTime < this.trailFadeInTime) {
+                // Fading in
+                trailVisibility = Math.min(1, cycleTime / 0.3); // Fade in over 0.3s
+              } else if (cycleTime > this.trailFadeOutTime) {
+                // Fading out
+                const fadeOutProgress = (cycleTime - this.trailFadeOutTime) / 0.3;
+                trailVisibility = Math.max(0, 1 - fadeOutProgress); // Fade out over 0.3s
+              }
+              
+              ctx.save();
+              ctx.globalCompositeOperation = 'screen';
+              
+              // Draw trail points with decreasing opacity - subtle, gas-like, with random fade
+              for (let i = 0; i < this.trail.length - 1; i++) {
+                const trailPoint = this.trail[i];
+                const trailProgress = i / (this.trail.length - 1); // 0 (oldest) to 1 (newest)
+                const baseTrailAlpha = alpha * (0.1 + trailProgress * 0.15); // Very subtle: fade from 10% to 25% of main alpha
+                const trailAlpha = baseTrailAlpha * trailVisibility; // Apply random fade in/out
+                const trailSize = depthAdjustedSize * (0.4 + trailProgress * 0.2); // Much smaller trail points
+                
+                // Create gradient for trail point
+                const trailGradient = ctx.createRadialGradient(
+                  trailPoint.x, trailPoint.y, 0,
+                  trailPoint.x, trailPoint.y, trailSize * 2
+                );
+                trailGradient.addColorStop(0, `hsla(${this.hue}, 100%, 75%, ${trailAlpha})`);
+                trailGradient.addColorStop(0.6, `hsla(${this.hue}, 100%, 70%, ${trailAlpha * 0.4})`);
+                trailGradient.addColorStop(1, `hsla(${this.hue}, 100%, 65%, 0)`);
+                
+                ctx.fillStyle = trailGradient;
+                ctx.beginPath();
+                ctx.arc(trailPoint.x, trailPoint.y, trailSize, 0, Math.PI * 2);
+                ctx.fill();
+              }
+              
+              ctx.restore();
+            }
+            
+            // Soft glow for nebula spark effect - smooth fade outward (optimized, no shadowBlur)
+            // Use depth-adjusted size for glow
+            const glowSize = depthAdjustedSize * 3; // Larger glow area for nebula spark
+            
+            // Enhanced brightness for particles near center (illuminated by center light)
+            // brightnessBoost is already calculated above
+            const gradient = ctx.createRadialGradient(
+              pos.x, pos.y, 0,
+              pos.x, pos.y, glowSize
+            );
+            // Bright center fading to transparent edges - creates soft glow without performance hit
+            // Enhanced brightness for illuminated particles near center
+            gradient.addColorStop(0, `hsla(${this.hue}, 100%, ${Math.min(95, 80 + brightnessBoost)}%, ${alpha})`);
+            gradient.addColorStop(0.3, `hsla(${this.hue}, 100%, ${Math.min(90, 75 + brightnessBoost * 0.8)}%, ${alpha * 0.8})`);
+            gradient.addColorStop(0.6, `hsla(${this.hue}, 100%, ${Math.min(85, 70 + brightnessBoost * 0.6)}%, ${alpha * 0.4})`);
+            gradient.addColorStop(0.85, `hsla(${this.hue}, 100%, ${Math.min(80, 65 + brightnessBoost * 0.4)}%, ${alpha * 0.15})`);
+            gradient.addColorStop(1, `hsla(${this.hue}, 100%, 60%, 0)`);
+            
+            ctx.save();
+            ctx.globalCompositeOperation = 'screen';
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, depthAdjustedSize, 0, Math.PI * 2); // Use depth-adjusted size
+            ctx.fill();
+            ctx.restore();
+          }
+        }
+        
+        // Start with 0 particles - will build up gradually
+        
+        // Track center light intensity - appears when particles are near center
+        let targetCoreIntensity = 0;
+        let currentCoreIntensity = 0;
+        const coreIntensitySmoothing = 0.04; // Much slower, very gradual fade-in
+        const baseRadius = 210; // Starting radius of particles (increased for tunnel effect)
+        const centerRadius = 1.5; // Radius where particles disappear
+        const lightActivationRadius = 8; // Light starts appearing when particles are very close to center
+        const lightFullRadius = 3; // Light reaches 100% when particles are at the center
+        
+        // Draw bright central core - only appears when particles reach the center
+        function drawCore(elapsed) {
+          if (particles.length === 0) {
+            targetCoreIntensity = 0;
+            currentCoreIntensity = 0;
+            return;
+          }
+          
+          // Find the closest particle to center
+          let closestRadius = baseRadius;
+          for (let particle of particles) {
+            if (particle.radius < closestRadius) {
+              closestRadius = particle.radius;
+            }
+          }
+          
+          // Light only appears when particles actually reach the center (very close)
+          if (closestRadius > lightActivationRadius) {
+            targetCoreIntensity = 0;
+            // Smoothly fade out if particles move away
+            currentCoreIntensity += (targetCoreIntensity - currentCoreIntensity) * coreIntensitySmoothing;
+            if (currentCoreIntensity < 0.01) return;
+          } else {
+            // Calculate intensity: 0% when particles reach activation radius (8px), 100% when at center (3px)
+            // Linear interpolation from lightActivationRadius to lightFullRadius
+            const progress = 1 - (closestRadius - lightFullRadius) / (lightActivationRadius - lightFullRadius);
+            targetCoreIntensity = Math.max(0, Math.min(1, progress)); // Clamp between 0 and 1
+          }
+          
+          // Very slow, smooth interpolation for gradual fade
+          currentCoreIntensity += (targetCoreIntensity - currentCoreIntensity) * coreIntensitySmoothing;
+          
+          // Only draw if intensity is significant
+          if (currentCoreIntensity < 0.01) return;
+          
+          const coreSize = 10; // Smaller center light
+          const deadCenterRadius = 4; // Slightly larger solid dead center for more visibility
+          const cx = centerX(); // Fixed center X
+          const cy = centerY(); // Fixed center Y
+          
+          ctx.save();
+          ctx.globalCompositeOperation = 'screen';
+          
+          // Draw solid dead center - completely static, no rotation
+          // Use solid fill for inner core to make it clearly non-rotating
+          ctx.fillStyle = `rgba(255, 255, 255, ${0.95 * currentCoreIntensity})`; // Bright white solid center
+          ctx.beginPath();
+          ctx.arc(cx, cy, deadCenterRadius, 0, Math.PI * 2);
+          ctx.fill();
+          
+          // Draw outer glow - perfectly circular, static gradient
+          const coreGradient = ctx.createRadialGradient(
+            cx, cy, deadCenterRadius,
+            cx, cy, coreSize
+          );
+          coreGradient.addColorStop(0, `rgba(255, 255, 200, ${0.8 * currentCoreIntensity})`); // Yellow-white
+          coreGradient.addColorStop(0.4, `rgba(255, 221, 85, ${0.6 * currentCoreIntensity})`); // Yellow
+          coreGradient.addColorStop(0.7, `rgba(251, 182, 0, ${0.3 * currentCoreIntensity})`); // Orange
+          coreGradient.addColorStop(1, 'rgba(251, 182, 0, 0)');
+          
+          ctx.fillStyle = coreGradient;
+          ctx.beginPath();
+          ctx.arc(cx, cy, coreSize, 0, Math.PI * 2);
+          ctx.fill();
+          
+          ctx.restore();
+        }
+        
+        function animate(time) {
+          if (startTime === null) startTime = time;
+          const elapsed = (time - startTime) / 1000;
+          
+          // Clear canvas - optimized (no expensive fillRect)
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          
+          // Clockwise rotation - Very slow speed for visible spiral
+          rotation += 0.007; // Slightly slower global rotation for clear visibility
+          
+          // Gradually add particles to form spiral (start from 0)
+          // Stop adding when first particle disappears, then regeneration handles continuity
+          if (!firstParticleDisappeared && activeParticleCount < calculatedMaxParticles && elapsed > 0.2) {
+            const toAdd = Math.min(particlesPerFrame, calculatedMaxParticles - activeParticleCount);
+            for (let i = 0; i < toAdd; i++) {
+              const armIndex = globalCreationCounter % numArms;
+              const particleIndex = Math.floor(globalCreationCounter / numArms);
+              particles.push(new Particle(armIndex, particleIndex, calculatedMaxParticles, globalCreationCounter, time));
+              activeParticleCount++;
+              globalCreationCounter++;
+            }
+          }
+          
+          // Show text after 1 second
+          if (elapsed >= 1.0 && portalText && portalText.style.opacity === '0') {
+            portalText.style.opacity = '1';
+          }
+          
+          // Draw bright central core
+          drawCore(elapsed);
+          
+          // Update and draw particles
+          particles.forEach(particle => {
+            particle.update(time);
+            particle.draw(time);
+          });
+          
+          animationId = requestAnimationFrame(animate);
+        }
+        
+        // Start animation
+        animate(performance.now());
+        
+        // Interactive tilt effect on mouse movement
+        let tiltX = 0;
+        let tiltY = 0;
+        const maxTilt = 18; // Maximum tilt angle in degrees
+        let isHovering = false;
+        
+        portalContainer.addEventListener('mouseenter', () => {
+          isHovering = true;
+        });
+        
+        portalContainer.addEventListener('mousemove', (e) => {
+          if (!isHovering) return;
+          
+          const rect = portalContainer.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          
+          // Calculate mouse position relative to center (-1 to 1)
+          const mouseX = (e.clientX - centerX) / (rect.width / 2);
+          const mouseY = (e.clientY - centerY) / (rect.height / 2);
+          
+          // Calculate tilt angles (invert Y for natural feel)
+          tiltY = mouseX * maxTilt; // Tilt left/right based on X
+          tiltX = -mouseY * maxTilt; // Tilt up/down based on Y (inverted)
+          
+          // Apply tilt to container with base scale
+          portalContainer.style.transform = `translate3d(0, 0, 0) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1)`;
+        });
+        
+        portalContainer.addEventListener('mouseleave', () => {
+          isHovering = false;
+          // Reset tilt when mouse leaves
+          tiltX = 0;
+          tiltY = 0;
+          portalContainer.style.transform = '';
+        });
+        
+        // Handle clicks - pull-in effect (camera zooms INTO the vortex)
+        portalContainer.addEventListener('click', () => {
+          // Get portal's current position for transform origin
+          const rect = portalContainer.getBoundingClientRect();
+          const portalCenterX = rect.left + rect.width / 2;
+          const portalCenterY = rect.top + rect.height / 2;
+          
+          // Set transform origin to portal center so we zoom INTO it
+          document.body.style.transformOrigin = `${portalCenterX}px ${portalCenterY}px`;
+          
+          // Portal stays in place, scales slightly
+          portalContainer.classList.add('pull-in');
+          
+          // Body/camera zooms INTO the vortex with delayed rotation
+          document.body.classList.add('pull-in');
+          
+          // Navigate when camera hits center of vortex (1.8s animation)
+          setTimeout(() => {
+            // Request fullscreen before navigation
+            if (document.documentElement.requestFullscreen) {
+              document.documentElement.requestFullscreen().then(() => {
+                window.location.href = 'https://rickymaru.co.uk/world?enter=true';
+              }).catch(() => {
+                window.location.href = 'https://rickymaru.co.uk/world?enter=true';
+              });
+            } else {
+              window.location.href = 'https://rickymaru.co.uk/world?enter=true';
+            }
+          }, 1800);
+        });
+      })();
+
+      // Second Portal at Bottom - Same functionality
+      (() => {
+        const canvas = document.getElementById('vortex-portal-bottom');
+        const portalContainer = document.getElementById('portal-container-bottom');
+        
+        if (!canvas || !portalContainer) return;
+        
+        const ctx = canvas.getContext('2d');
+        let animationId = null;
+        let startTime = null;
+        let rotation = 0;
+        
+        // Resize canvas
+        function resizeCanvas() {
+          const rect = portalContainer.getBoundingClientRect();
+          canvas.width = rect.width;
+          canvas.height = rect.height;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Particle system - realistic vortex with 2 main arms
+        const particles = [];
+        const numArms = 2; // Two main arms like reference
+        let activeParticleCount = 0;
+        let globalCreationCounter = 0; // Track actual creation order
+        let firstParticleDisappeared = false; // Track when first particle disappears
+        const particlesPerFrame = 5; // Moderate generation rate for 2800 particles
+        const centerX = () => canvas.width / 2;
+        const centerY = () => canvas.height / 2;
+        
+        // Calculate max particles needed for continuous loop
+        // Slightly increased for denser effect
+        const calculatedMaxParticles = 2800; // Slightly more particles for denser vortex
+        
+        // Hide text initially
+        const portalText = portalContainer.querySelector('.portal-text');
+        if (portalText) {
+          portalText.style.opacity = '0';
+          portalText.style.transition = 'opacity 0.5s ease-in';
+        }
+        
+        // Particle class - realistic small glowing dots (same as top portal)
+        class Particle {
+          constructor(armIndex, particleIndex, totalParticles, creationOrder, creationTime) {
+            this.armIndex = armIndex;
+            this.particleIndex = particleIndex;
+            this.totalParticles = totalParticles;
+            this.creationOrder = creationOrder; // Actual order of creation
+            this.creationTime = creationTime || performance.now(); // Time when particle was created
+            // Random fade-in: particles fade in at different rates when entering field
+            this.fadeInDuration = 0.3 + Math.random() * 0.9; // More random: 0.3-1.2 seconds for varied appearance
+            this.fadeInDelay = Math.random() * 0.3; // Random delay before fade-in starts (0-0.3s)
+            this.reset(true);
+          }
+          
+          reset(isInitial = false) {
+            const armAngle = (this.armIndex / numArms) * Math.PI * 2;
+            const baseRadius = 210; // Slightly larger field for more tunnel-like effect
+            
+            // Spiral offset - creates clearly visible spiral arms
+            // Use creation order to position particles along spiral with tighter spacing
+            const baseSpiralOffset = this.creationOrder * 0.25; // Increased spacing for more distinct spiral arms
+            const randomAngleVariation = (Math.random() - 0.5) * 0.05; // Minimal variation to maintain clear spiral
+            const spiralOffset = baseSpiralOffset + randomAngleVariation;
+            
+            if (isInitial) {
+              // For initial particles: start at outer edge with organic shape but maintain spiral
+              const radiusVariation = (Math.random() - 0.5) * 35; // Organic edge variation
+              const angleVariation = (Math.random() - 0.5) * 0.2; // Reduced angle variation to maintain spiral
+              this.radius = baseRadius + radiusVariation; // Irregular outer edge
+              this.angle = armAngle + spiralOffset + angleVariation;
+            } else {
+              // Regenerated particles: always start at outer edge with minimal variation to maintain spiral
+              const radiusVariation = (Math.random() - 0.5) * 35; // Organic edge variation
+              const angleVariation = (Math.random() - 0.5) * 0.15; // Reduced angle variation to maintain spiral
+              this.radius = baseRadius + radiusVariation;
+              this.angle = armAngle + this.initialSpiralOffset + (rotation % (Math.PI * 2)) + angleVariation;
+            }
+            
+            this.baseRadius = baseRadius;
+            this.initialSpiralOffset = spiralOffset; // Store for maintaining spiral shape
+            
+            // Trail for flowing gas effect - highly randomized per particle (subtle, not sperm-like)
+            this.trail = []; // Store previous positions for trail effect
+            this.hasTrail = Math.random() > 0.65; // 35% of particles can have trails (more random)
+            this.maxTrailLength = this.hasTrail ? (1 + Math.floor(Math.random() * 3)) : 0; // Random trail length: 1-3 points
+            // Random trail fade in/out timing to prevent uniform appearance
+            this.trailActive = false; // Trail starts inactive
+            this.trailFadeInTime = Math.random() * 2; // Random time before trail fades in (0-2s)
+            this.trailFadeOutTime = this.trailFadeInTime + 0.5 + Math.random() * 1.5; // Random time before trail fades out
+            this.trailCycleDuration = 2 + Math.random() * 3; // Random cycle duration (2-5s)
+            
+            // Signature color palette: #fbb600 (44° orange-gold) and neighboring warm tones
+            // Use angle to create color gradient that follows the spiral pattern
+            const normalizedAngle = ((this.angle % (Math.PI * 2)) + (Math.PI * 2)) % (Math.PI * 2); // Normalize to 0-2π
+            const angleColorProgress = normalizedAngle / (Math.PI * 2); // 0 to 1 based on angle
+            
+            // Signature color #fbb600 is ~44° (orange-gold)
+            // Neighboring colors: red-orange (25°), orange (35°), signature (44°), yellow-orange (50°), yellow (55°)
+            // Create smooth gradient through these warm tones
+            const signatureHue = 44; // #fbb600 signature color
+            const hueRange = 30; // Range of neighboring colors (±15° from signature)
+            const baseHue = signatureHue + (angleColorProgress - 0.5) * hueRange; // Vary ±15° around signature
+            this.hue = (baseHue + (Math.random() - 0.5) * 6) % 360; // Add slight random variation, wrap around
+            this.opacity = 0.65 + Math.random() * 0.35; // Increased opacity by ~15% for better visibility (0.65-1.0)
+            
+            // Small varied sizes for realistic feel - more variation
+            this.size = 0.6 + Math.random() * 3.0; // More size variation
+            // Base rotation speed: will be adjusted based on distance from center
+            // Particles near center rotate faster, outer ones slower (realistic spiral motion)
+            this.baseSpeed = 0.007 + Math.random() * 0.003; // Base speed for clear visibility
+            this.speed = this.baseSpeed; // Initial speed, will be adjusted in update()
+            this.pullSpeed = 0.97 + Math.random() * 0.01; // Faster pull to match rotation speed
+          }
+          
+          update(time) {
+            // Store previous position for trail (before updating)
+            const prevPos = this.getPosition();
+            
+            // Realistic spiral motion: particles near center rotate faster, outer ones slower
+            // Speed is inversely proportional to radius (like real spiral galaxies)
+            // Moderate speed difference - visible but not too fast
+            const normalizedRadius = Math.max(this.radius / this.baseRadius, 0.1); // Normalize, prevent division by zero
+            const speedMultiplier = 0.5 + (1 / normalizedRadius) * 0.8; // Moderate: 1x at edge, ~8-9x at center
+            const adjustedSpeed = this.baseSpeed * speedMultiplier;
+            
+            // Clockwise rotation (positive) - speed varies based on distance from center
+            this.angle += adjustedSpeed;
+            
+            // Pull inward - each particle has its own pull speed (set in reset)
+            this.radius *= this.pullSpeed;
+            
+            // Update trail for flowing gas effect - random fade in/out to prevent sperm effect
+            if (this.hasTrail && this.maxTrailLength > 0) {
+              // Calculate particle age for random trail timing
+              const particleAge = (time - this.creationTime) / 1000; // Age in seconds
+              const cycleTime = particleAge % this.trailCycleDuration; // Time within current cycle
+              
+              // Simple random fade in/out: trail appears after fadeInTime, disappears after fadeOutTime
+              const wasActive = this.trailActive;
+              
+              if (cycleTime < this.trailFadeInTime) {
+                // Before fade in - trail inactive
+                this.trailActive = false;
+              } else if (cycleTime < this.trailFadeOutTime) {
+                // Between fade in and fade out - trail active
+                this.trailActive = true;
+              } else {
+                // After fade out - trail inactive
+                this.trailActive = false;
+              }
+              
+              // Only update trail when active
+              if (this.trailActive) {
+                this.trail.push({ x: prevPos.x, y: prevPos.y });
+                
+                // Limit trail length for performance
+                if (this.trail.length > this.maxTrailLength) {
+                  this.trail.shift(); // Remove oldest position
+                }
+              } else if (wasActive) {
+                // Clear trail when it becomes inactive
+                this.trail = [];
+              }
+            }
+            
+            // Reset when very close to center (almost invisible)
+            const resetThreshold = 1.5; // Very close to center - particles disappear when invisible
+            
+            // Force regeneration if particle is too close to center (invisible)
+            if (this.radius < resetThreshold) {
+              // Mark that first particle has disappeared (for initial build-up)
+              if (this.creationOrder === 0 && !firstParticleDisappeared) {
+                firstParticleDisappeared = true;
+              }
+              // Reset creation time for fade-in effect when regenerated
+              this.creationTime = time;
+              this.fadeInDuration = 0.3 + Math.random() * 0.9; // More random: 0.3-1.2 seconds for varied appearance
+              this.fadeInDelay = Math.random() * 0.3; // Random delay before fade-in starts (0-0.3s)
+              this.trail = []; // Clear trail when regenerated
+              // Randomize trail properties for variety - random fade in/out to prevent sperm effect
+              this.hasTrail = Math.random() > 0.65; // 35% of particles can have trails (more random)
+              this.maxTrailLength = this.hasTrail ? (1 + Math.floor(Math.random() * 3)) : 0; // Random trail length: 1-3 points
+              this.trailActive = false; // Trail starts inactive
+              this.trailFadeInTime = Math.random() * 2; // Random time before trail fades in (0-2s)
+              this.trailFadeOutTime = this.trailFadeInTime + 0.5 + Math.random() * 1.5; // Random time before trail fades out
+              this.trailCycleDuration = 2 + Math.random() * 3; // Random cycle duration (2-5s)
+              this.reset(false); // Regenerate at outer edge
+            }
+          }
+          
+          getPosition() {
+            const x = centerX() + Math.cos(this.angle + rotation) * this.radius;
+            const y = centerY() + Math.sin(this.angle + rotation) * this.radius;
+            return { x, y };
+          }
+          
+          draw(currentTime) {
+            const pos = this.getPosition();
+            const distanceFromCenter = Math.min(this.radius / this.baseRadius, 1);
+            
+            // Fade in effect - particles gradually appear when entering field (random timing)
+            const timeSinceCreation = (currentTime - this.creationTime) / 1000; // Convert to seconds
+            let fadeInAlpha = 1.0;
+            
+            // Account for random delay before fade-in starts
+            const timeAfterDelay = Math.max(0, timeSinceCreation - (this.fadeInDelay || 0));
+            
+            if (timeAfterDelay < this.fadeInDuration) {
+              // Gradually fade in from 0 to 1 over fadeInDuration with smooth easing
+              const progress = Math.min(1, timeAfterDelay / this.fadeInDuration);
+              // Smooth ease-in curve for more realistic, natural appearance
+              fadeInAlpha = progress * progress * (3 - 2 * progress); // Smoothstep function for natural fade
+            } else if (timeSinceCreation < (this.fadeInDelay || 0)) {
+              // Still in delay period - completely transparent
+              fadeInAlpha = 0;
+            }
+            
+            // Fade out at outer edges - very aggressive blurry boundary effect to break perfect circle
+            // Account for max radius variation: particles can be up to baseRadius + 17.5px
+            const maxPossibleRadius = this.baseRadius + 17.5; // Maximum radius particles can have
+            const fadeStartRadius = this.baseRadius * 0.5; // Start fading much earlier at 50% of baseRadius
+            const fadeEndRadius = this.baseRadius * 0.7; // Fully transparent by 70% (much earlier)
+            let edgeFade = 1.0;
+            
+            if (this.radius > fadeStartRadius) {
+              // Calculate fade: 1.0 at fadeStartRadius, 0.0 at fadeEndRadius
+              const fadeProgress = (this.radius - fadeStartRadius) / (fadeEndRadius - fadeStartRadius);
+              edgeFade = Math.max(0, 1 - fadeProgress * 1.5); // Faster fade - steeper curve
+            }
+            
+            // Very aggressive fade for any particles beyond fadeEndRadius
+            // This ensures no particles are visible near the edge, completely breaking the circle
+            if (this.radius > fadeEndRadius) {
+              const extraFade = (this.radius - fadeEndRadius) / (maxPossibleRadius - fadeEndRadius);
+              edgeFade *= Math.max(0, 1 - extraFade * 8); // Extremely aggressive fade - particles disappear instantly
+            }
+            
+            // Size adjustment: particles get smaller as they approach center to prevent bunching
+            // Gradual size reduction starting from 20% of journey
+            const sizeReductionStart = this.baseRadius * 0.2; // Start reducing size when radius < 20% of base
+            let depthSizeMultiplier = 1.0; // Default: full size
+            
+            if (this.radius < sizeReductionStart) {
+              // Gradual size reduction as particles approach center
+              const reductionProgress = this.radius / sizeReductionStart; // 0 at center, 1 at reduction start
+              depthSizeMultiplier = 0.3 + reductionProgress * 0.7; // Size range: 0.3x at center to 1.0x at reduction start
+            }
+            
+            const depthAdjustedSize = this.size * depthSizeMultiplier;
+            
+            // Opacity fade: particles FADE as they approach center (not brighter)
+            // Reverse the opacity so particles become more transparent near center
+            const centerFadeStart = this.baseRadius * 0.15; // Start fading when radius < 15% of base
+            let centerFade = 1.0;
+            
+            if (this.radius < centerFadeStart) {
+              // Fade out as particles approach center
+              const fadeProgress = this.radius / centerFadeStart; // 0 at center, 1 at fade start
+              centerFade = 0.2 + fadeProgress * 0.8; // Fade from 20% opacity at center to 100% at fade start
+            }
+            
+            const baseAlpha = this.opacity * centerFade * (0.5 + distanceFromCenter * 0.5);
+            
+            // Soft light illumination: particles near center are brighter (illuminated by center light)
+            const illuminationRadius = 40; // Radius of illumination effect from center light
+            let illuminationMultiplier = 1.0;
+            let brightnessBoost = 0; // Additional lightness for illumination
+            
+            if (this.radius < illuminationRadius) {
+              // Particles within illumination radius get brighter
+              const illuminationDistance = this.radius / illuminationRadius; // 0 at center, 1 at edge of illumination
+              // Brightest at center, gradually dims outward
+              illuminationMultiplier = 1.0 + (1 - illuminationDistance) * 0.6; // 1.0x to 1.6x brightness
+              brightnessBoost = (1 - illuminationDistance) * 15; // Up to 15% brighter at center
+            }
+            
+            // Combine with edge fade and fade-in (preserve fade-in to prevent perfect circle)
+            // Apply illumination to make particles near center brighter
+            const alpha = baseAlpha * edgeFade * fadeInAlpha * illuminationMultiplier;
+            
+            // Don't draw if completely faded
+            if (alpha < 0.01) return;
+            
+            // Draw fading trail for flowing gas effect - random fade in/out to prevent sperm effect
+            if (this.hasTrail && this.trailActive && this.trail.length > 1) {
+              // Calculate smooth fade in/out based on cycle timing
+              const particleAge = (currentTime - this.creationTime) / 1000;
+              const cycleTime = particleAge % this.trailCycleDuration;
+              
+              // Smooth fade in/out transitions
+              let trailVisibility = 1.0;
+              if (cycleTime < this.trailFadeInTime) {
+                // Fading in
+                trailVisibility = Math.min(1, cycleTime / 0.3); // Fade in over 0.3s
+              } else if (cycleTime > this.trailFadeOutTime) {
+                // Fading out
+                const fadeOutProgress = (cycleTime - this.trailFadeOutTime) / 0.3;
+                trailVisibility = Math.max(0, 1 - fadeOutProgress); // Fade out over 0.3s
+              }
+              
+              ctx.save();
+              ctx.globalCompositeOperation = 'screen';
+              
+              // Draw trail points with decreasing opacity - subtle, gas-like, with random fade
+              for (let i = 0; i < this.trail.length - 1; i++) {
+                const trailPoint = this.trail[i];
+                const trailProgress = i / (this.trail.length - 1); // 0 (oldest) to 1 (newest)
+                const baseTrailAlpha = alpha * (0.1 + trailProgress * 0.15); // Very subtle: fade from 10% to 25% of main alpha
+                const trailAlpha = baseTrailAlpha * trailVisibility; // Apply random fade in/out
+                const trailSize = depthAdjustedSize * (0.4 + trailProgress * 0.2); // Much smaller trail points
+                
+                // Create gradient for trail point
+                const trailGradient = ctx.createRadialGradient(
+                  trailPoint.x, trailPoint.y, 0,
+                  trailPoint.x, trailPoint.y, trailSize * 2
+                );
+                trailGradient.addColorStop(0, `hsla(${this.hue}, 100%, 75%, ${trailAlpha})`);
+                trailGradient.addColorStop(0.6, `hsla(${this.hue}, 100%, 70%, ${trailAlpha * 0.4})`);
+                trailGradient.addColorStop(1, `hsla(${this.hue}, 100%, 65%, 0)`);
+                
+                ctx.fillStyle = trailGradient;
+                ctx.beginPath();
+                ctx.arc(trailPoint.x, trailPoint.y, trailSize, 0, Math.PI * 2);
+                ctx.fill();
+              }
+              
+              ctx.restore();
+            }
+            
+            // Soft glow for nebula spark effect - smooth fade outward (optimized, no shadowBlur)
+            // Use depth-adjusted size for glow
+            const glowSize = depthAdjustedSize * 3; // Larger glow area for nebula spark
+            
+            // Enhanced brightness for particles near center (illuminated by center light)
+            // brightnessBoost is already calculated above
+            const gradient = ctx.createRadialGradient(
+              pos.x, pos.y, 0,
+              pos.x, pos.y, glowSize
+            );
+            // Bright center fading to transparent edges - creates soft glow without performance hit
+            // Enhanced brightness for illuminated particles near center
+            gradient.addColorStop(0, `hsla(${this.hue}, 100%, ${Math.min(95, 80 + brightnessBoost)}%, ${alpha})`);
+            gradient.addColorStop(0.3, `hsla(${this.hue}, 100%, ${Math.min(90, 75 + brightnessBoost * 0.8)}%, ${alpha * 0.8})`);
+            gradient.addColorStop(0.6, `hsla(${this.hue}, 100%, ${Math.min(85, 70 + brightnessBoost * 0.6)}%, ${alpha * 0.4})`);
+            gradient.addColorStop(0.85, `hsla(${this.hue}, 100%, ${Math.min(80, 65 + brightnessBoost * 0.4)}%, ${alpha * 0.15})`);
+            gradient.addColorStop(1, `hsla(${this.hue}, 100%, 60%, 0)`);
+            
+            ctx.save();
+            ctx.globalCompositeOperation = 'screen';
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, depthAdjustedSize, 0, Math.PI * 2); // Use depth-adjusted size
+            ctx.fill();
+            ctx.restore();
+          }
+        }
+        
+        // Start with 0 particles - will build up gradually
+        
+        // Track center light intensity - appears when particles are near center
+        let targetCoreIntensity = 0;
+        let currentCoreIntensity = 0;
+        const coreIntensitySmoothing = 0.04; // Much slower, very gradual fade-in
+        const baseRadius = 210; // Starting radius of particles (increased for tunnel effect)
+        const centerRadius = 1.5; // Radius where particles disappear
+        const lightActivationRadius = 8; // Light starts appearing when particles are very close to center
+        const lightFullRadius = 3; // Light reaches 100% when particles are at the center
+        
+        // Draw bright central core - only appears when particles reach the center
+        function drawCore(elapsed) {
+          if (particles.length === 0) {
+            targetCoreIntensity = 0;
+            currentCoreIntensity = 0;
+            return;
+          }
+          
+          // Find the closest particle to center
+          let closestRadius = baseRadius;
+          for (let particle of particles) {
+            if (particle.radius < closestRadius) {
+              closestRadius = particle.radius;
+            }
+          }
+          
+          // Light only appears when particles actually reach the center (very close)
+          if (closestRadius > lightActivationRadius) {
+            targetCoreIntensity = 0;
+            // Smoothly fade out if particles move away
+            currentCoreIntensity += (targetCoreIntensity - currentCoreIntensity) * coreIntensitySmoothing;
+            if (currentCoreIntensity < 0.01) return;
+          } else {
+            // Calculate intensity: 0% when particles reach activation radius (8px), 100% when at center (3px)
+            // Linear interpolation from lightActivationRadius to lightFullRadius
+            const progress = 1 - (closestRadius - lightFullRadius) / (lightActivationRadius - lightFullRadius);
+            targetCoreIntensity = Math.max(0, Math.min(1, progress)); // Clamp between 0 and 1
+          }
+          
+          // Very slow, smooth interpolation for gradual fade
+          currentCoreIntensity += (targetCoreIntensity - currentCoreIntensity) * coreIntensitySmoothing;
+          
+          // Only draw if intensity is significant
+          if (currentCoreIntensity < 0.01) return;
+          
+          const coreSize = 10; // Smaller center light
+          const deadCenterRadius = 4; // Slightly larger solid dead center for more visibility
+          const cx = centerX(); // Fixed center X
+          const cy = centerY(); // Fixed center Y
+          
+          ctx.save();
+          ctx.globalCompositeOperation = 'screen';
+          
+          // Draw solid dead center - completely static, no rotation
+          // Use solid fill for inner core to make it clearly non-rotating
+          ctx.fillStyle = `rgba(255, 255, 255, ${0.95 * currentCoreIntensity})`; // Bright white solid center
+          ctx.beginPath();
+          ctx.arc(cx, cy, deadCenterRadius, 0, Math.PI * 2);
+          ctx.fill();
+          
+          // Draw outer glow - perfectly circular, static gradient
+          const coreGradient = ctx.createRadialGradient(
+            cx, cy, deadCenterRadius,
+            cx, cy, coreSize
+          );
+          coreGradient.addColorStop(0, `rgba(255, 255, 200, ${0.8 * currentCoreIntensity})`); // Yellow-white
+          coreGradient.addColorStop(0.4, `rgba(255, 221, 85, ${0.6 * currentCoreIntensity})`); // Yellow
+          coreGradient.addColorStop(0.7, `rgba(251, 182, 0, ${0.3 * currentCoreIntensity})`); // Orange
+          coreGradient.addColorStop(1, 'rgba(251, 182, 0, 0)');
+          
+          ctx.fillStyle = coreGradient;
+          ctx.beginPath();
+          ctx.arc(cx, cy, coreSize, 0, Math.PI * 2);
+          ctx.fill();
+          
+          ctx.restore();
+        }
+        
+        function animate(time) {
+          if (startTime === null) startTime = time;
+          const elapsed = (time - startTime) / 1000;
+          
+          // Clear canvas - optimized (no expensive fillRect)
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          
+          // Clockwise rotation - Very slow speed for visible spiral
+          rotation += 0.007; // Slightly slower global rotation for clear visibility
+          
+          // Gradually add particles to form spiral (start from 0)
+          // Stop adding when first particle disappears, then regeneration handles continuity
+          if (!firstParticleDisappeared && activeParticleCount < calculatedMaxParticles && elapsed > 0.2) {
+            const toAdd = Math.min(particlesPerFrame, calculatedMaxParticles - activeParticleCount);
+            for (let i = 0; i < toAdd; i++) {
+              const armIndex = globalCreationCounter % numArms;
+              const particleIndex = Math.floor(globalCreationCounter / numArms);
+              particles.push(new Particle(armIndex, particleIndex, calculatedMaxParticles, globalCreationCounter, time));
+              activeParticleCount++;
+              globalCreationCounter++;
+            }
+          }
+          
+          // Show text after 1 second
+          if (elapsed >= 1.0 && portalText && portalText.style.opacity === '0') {
+            portalText.style.opacity = '1';
+          }
+          
+          // Draw bright central core
+          drawCore(elapsed);
+          
+          // Update and draw particles
+          particles.forEach(particle => {
+            particle.update(time);
+            particle.draw(time);
+          });
+          
+          animationId = requestAnimationFrame(animate);
+        }
+        
+        // Start animation
+        animate(performance.now());
+        
+        // Interactive tilt effect on mouse movement
+        let tiltX = 0;
+        let tiltY = 0;
+        const maxTilt = 18; // Maximum tilt angle in degrees
+        let isHovering = false;
+        
+        portalContainer.addEventListener('mouseenter', () => {
+          isHovering = true;
+        });
+        
+        portalContainer.addEventListener('mousemove', (e) => {
+          if (!isHovering) return;
+          
+          const rect = portalContainer.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          
+          // Calculate mouse position relative to center (-1 to 1)
+          const mouseX = (e.clientX - centerX) / (rect.width / 2);
+          const mouseY = (e.clientY - centerY) / (rect.height / 2);
+          
+          // Calculate tilt angles (invert Y for natural feel)
+          tiltY = mouseX * maxTilt; // Tilt left/right based on X
+          tiltX = -mouseY * maxTilt; // Tilt up/down based on Y (inverted)
+          
+          // Apply tilt to container with base scale
+          portalContainer.style.transform = `translate3d(0, 0, 0) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1)`;
+        });
+        
+        portalContainer.addEventListener('mouseleave', () => {
+          isHovering = false;
+          // Reset tilt when mouse leaves
+          tiltX = 0;
+          tiltY = 0;
+          portalContainer.style.transform = '';
+        });
+        
+        // Handle clicks - pull-in effect (camera zooms INTO the vortex)
+        portalContainer.addEventListener('click', () => {
+          // Get portal's current position for transform origin
+          const rect = portalContainer.getBoundingClientRect();
+          const portalCenterX = rect.left + rect.width / 2;
+          const portalCenterY = rect.top + rect.height / 2;
+          
+          // Set transform origin to portal center so we zoom INTO it
+          document.body.style.transformOrigin = `${portalCenterX}px ${portalCenterY}px`;
+          
+          // Portal stays in place, scales slightly
+          portalContainer.classList.add('pull-in');
+          
+          // Body/camera zooms INTO the vortex with delayed rotation
+          document.body.classList.add('pull-in');
+          
+          // Navigate when camera hits center of vortex (1.8s animation)
+          setTimeout(() => {
+            // Request fullscreen before navigation
+            if (document.documentElement.requestFullscreen) {
+              document.documentElement.requestFullscreen().then(() => {
+                window.location.href = 'https://rickymaru.co.uk/world?enter=true';
+              }).catch(() => {
+                window.location.href = 'https://rickymaru.co.uk/world?enter=true';
+              });
+            } else {
+              window.location.href = 'https://rickymaru.co.uk/world?enter=true';
+            }
+          }, 1800);
+        });
+      })();
     });
 
     // Custom cursor system
@@ -1024,30 +2244,41 @@
       const cursor = document.querySelector('.custom-cursor');
       let cursorX = 0, cursorY = 0;
       let targetX = 0, targetY = 0;
-      let lastX = 0, lastY = 0;
-      let speed = 0;
+      let isAnimating = false;
 
       function updateCursor() {
-        const dx = targetX - lastX;
-        const dy = targetY - lastY;
-        speed = Math.sqrt(dx * dx + dy * dy) * 0.1;
+        // Use a more responsive interpolation (higher factor = more responsive)
+        const lerpFactor = 0.15; // Increased from ~0.1-0.3 for better responsiveness
+        const dx = targetX - cursorX;
+        const dy = targetY - cursorY;
         
-        const damping = Math.max(0.1, 0.3 - speed * 0.1);
-        cursorX += (targetX - cursorX) * damping;
-        cursorY += (targetY - cursorY) * damping;
+        // Only update if there's meaningful movement (performance optimization)
+        if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+          cursorX += dx * lerpFactor;
+          cursorY += dy * lerpFactor;
+          cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
+          isAnimating = true;
+        } else {
+          isAnimating = false;
+        }
         
-        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-        lastX = targetX;
-        lastY = targetY;
-        requestAnimationFrame(updateCursor);
+        if (isAnimating) {
+          requestAnimationFrame(updateCursor);
+        }
       }
 
+      // Start animation loop
       updateCursor();
 
       document.addEventListener('mousemove', e => {
         targetX = e.clientX - 10;
         targetY = e.clientY - 10;
-      });
+        
+        // Restart animation if it stopped
+        if (!isAnimating) {
+          updateCursor();
+        }
+      }, { passive: true });
     }
 
     // Show the R button after scrolling past hero
