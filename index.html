@@ -402,10 +402,16 @@
         -webkit-mask-image: none;
       }
       
-      /* Increase blur and reduce opacity on mobile to remove grey edges */
+      /* Hide or heavily reduce outer blur on mobile to remove grey edges */
       .portal-outer-blur {
-        filter: blur(50px);
-        opacity: 0.25;
+        filter: blur(60px);
+        opacity: 0.15;
+        border-top-color: rgba(20, 30, 60, 0.15);
+        border-right-color: rgba(15, 25, 50, 0.1);
+        border-bottom-color: rgba(20, 30, 60, 0.15);
+        border-left-color: rgba(15, 25, 50, 0.1);
+        box-shadow: none;
+        outline: none;
       }
       
       /* Bottom portal - same settings */
@@ -422,8 +428,20 @@
       
       /* Increase blur and reduce opacity on mobile for bottom portal */
       #portal-container-bottom .portal-outer-blur {
-        filter: blur(50px);
-        opacity: 0.25;
+        filter: blur(60px);
+        opacity: 0.15;
+        border-top-color: rgba(20, 30, 60, 0.15);
+        border-right-color: rgba(15, 25, 50, 0.1);
+        border-bottom-color: rgba(20, 30, 60, 0.15);
+        border-left-color: rgba(15, 25, 50, 0.1);
+        box-shadow: none;
+        outline: none;
+      }
+      
+      /* Ensure black background is visible and working on mobile */
+      .portal-background {
+        background: rgba(0, 0, 0, 1);
+        z-index: 0;
       }
     }
 
