@@ -402,9 +402,10 @@
         -webkit-mask-image: none;
       }
       
-      /* Ensure blur effects are applied on mobile */
+      /* Increase blur and reduce opacity on mobile to remove grey edges */
       .portal-outer-blur {
-        filter: blur(30px);
+        filter: blur(50px);
+        opacity: 0.25;
       }
       
       /* Bottom portal - same settings */
@@ -419,9 +420,10 @@
         -webkit-mask-image: none;
       }
       
-      /* Ensure blur effects are applied on mobile for bottom portal */
+      /* Increase blur and reduce opacity on mobile for bottom portal */
       #portal-container-bottom .portal-outer-blur {
-        filter: blur(30px);
+        filter: blur(50px);
+        opacity: 0.25;
       }
     }
 
