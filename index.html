@@ -384,40 +384,6 @@
       height: 160px !important;
     }
     
-    @media (max-width: 768px) {
-      #portal-container-bottom {
-        width: 140px !important;
-        height: 140px !important;
-      }
-      
-      /* Ensure same soft edges on mobile for bottom portal - scale mask-image proportionally */
-      #portal-container-bottom canvas {
-        mask-image: radial-gradient(circle, 
-          black 0%, 
-          black calc(100% - 30px), 
-          rgba(0, 0, 0, 0.95) calc(100% - 26px),
-          rgba(0, 0, 0, 0.85) calc(100% - 22px),
-          rgba(0, 0, 0, 0.7) calc(100% - 17px),
-          rgba(0, 0, 0, 0.5) calc(100% - 13px),
-          rgba(0, 0, 0, 0.3) calc(100% - 9px),
-          transparent calc(100% - 4px));
-        -webkit-mask-image: radial-gradient(circle, 
-          black 0%, 
-          black calc(100% - 30px), 
-          rgba(0, 0, 0, 0.95) calc(100% - 26px),
-          rgba(0, 0, 0, 0.85) calc(100% - 22px),
-          rgba(0, 0, 0, 0.7) calc(100% - 17px),
-          rgba(0, 0, 0, 0.5) calc(100% - 13px),
-          rgba(0, 0, 0, 0.3) calc(100% - 9px),
-          transparent calc(100% - 4px));
-      }
-      
-      /* Ensure blur effects are applied on mobile for bottom portal */
-      #portal-container-bottom .portal-outer-blur {
-        filter: blur(30px);
-      }
-    }
-    
     /* Mobile responsive */
     @media (max-width: 768px) {
       .portal-container {
@@ -430,30 +396,31 @@
         bottom: -40px;
       }
       
-      /* Ensure same soft edges on mobile - scale mask-image proportionally */
+      /* Remove mask-image gradient on mobile - it makes it too grey/visible */
       .portal-container canvas {
-        mask-image: radial-gradient(circle, 
-          black 0%, 
-          black calc(100% - 61px), 
-          rgba(0, 0, 0, 0.95) calc(100% - 52px),
-          rgba(0, 0, 0, 0.85) calc(100% - 44px),
-          rgba(0, 0, 0, 0.7) calc(100% - 35px),
-          rgba(0, 0, 0, 0.5) calc(100% - 26px),
-          rgba(0, 0, 0, 0.3) calc(100% - 17px),
-          transparent calc(100% - 9px));
-        -webkit-mask-image: radial-gradient(circle, 
-          black 0%, 
-          black calc(100% - 61px), 
-          rgba(0, 0, 0, 0.95) calc(100% - 52px),
-          rgba(0, 0, 0, 0.85) calc(100% - 44px),
-          rgba(0, 0, 0, 0.7) calc(100% - 35px),
-          rgba(0, 0, 0, 0.5) calc(100% - 26px),
-          rgba(0, 0, 0, 0.3) calc(100% - 17px),
-          transparent calc(100% - 9px));
+        mask-image: none;
+        -webkit-mask-image: none;
       }
       
       /* Ensure blur effects are applied on mobile */
       .portal-outer-blur {
+        filter: blur(30px);
+      }
+      
+      /* Bottom portal - same settings */
+      #portal-container-bottom {
+        width: 140px !important;
+        height: 140px !important;
+      }
+      
+      /* Remove mask-image gradient on mobile for bottom portal too */
+      #portal-container-bottom canvas {
+        mask-image: none;
+        -webkit-mask-image: none;
+      }
+      
+      /* Ensure blur effects are applied on mobile for bottom portal */
+      #portal-container-bottom .portal-outer-blur {
         filter: blur(30px);
       }
     }
